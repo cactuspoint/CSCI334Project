@@ -23,7 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_login: ^1.1.0
+  flutter_login: ^2.0.0-nullsafety.0
   cupertino_icons: ^1.0.2
   font_awesome_flutter: ^9.0.0
   intl: ^0.17.0
