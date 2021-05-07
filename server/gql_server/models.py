@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-from database import Base, engine
+
+from . database import Base, engine
 
 class PersonModel(Base):
     __tablename__ = 'person'

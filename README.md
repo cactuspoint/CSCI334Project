@@ -7,5 +7,5 @@ CSCI334 COVID Project
 ```pip install sqlalchemy```
 ```pip install graphene_sqlalchemy```
 ```pip install flask_graphql```
-```pip install Flask-GraphQL-Auth```
+```pip install pyjwt```
 ```pip install "PyJWT==1.7.0"```
