@@ -9,9 +9,9 @@ from . middleware import AuthMiddleware
 
 app = None
 
-def create_server():
+def create_server(debug: bool):
     app = Flask(__name__)
-    app.debug = True
+    app.debug = debug
     app.add_url_rule('/graphql', view_func=GraphQLView.as_view('graphql', schema=schema, graphiql=True, context={'session': session}, middleware=[AuthMiddleware]))
     @app.teardown_appcontext
     def shutdown_session(exception=None):
