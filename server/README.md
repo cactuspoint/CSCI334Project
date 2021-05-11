@@ -34,7 +34,7 @@ where Person is the Person's data with the uuid, uuid
 ```
 query{
   person(uuid:1, jwt:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6MX0.psvcsWpD8k8ToNASO4RsXp6EM0NJhz4fu2gpIN_4V_E"){
-    name
+    fName
   }
 }
 ```
