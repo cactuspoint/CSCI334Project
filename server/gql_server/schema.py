@@ -19,14 +19,19 @@ class AuthMutation(graphene.Mutation):
     @classmethod
     def mutate(cls, _, info, phoneNum, password):
         query = Person.get_query(info).filter_by(phone_num=phoneNum)
-        if query.first() and query.first().password==password:
-            return AuthMutation(
-                access_token=encrypt_jwt(query.first().uuid),
-                message="success"
-            )
+        if query.first():
+            if query.first().password==password:
+                return AuthMutation(
+                    access_token=encrypt_jwt(query.first().uuid),
+                    message="success"
+                )       
+            else:
+                return AuthMutation(
+                    message="error: incorrect password"
+                )
         else:
             return AuthMutation(
-                message="error: no user with that phone number"
+                message="error: incorrect phoneNum"
             )
 
 
