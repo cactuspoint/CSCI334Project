@@ -14,7 +14,6 @@ class AuthMutation(graphene.Mutation):
         password = graphene.String()
 
     access_token = graphene.String()
-    message = graphene.String()
 
     @classmethod
     def mutate(cls, _, info, phoneNum, password):
@@ -23,16 +22,11 @@ class AuthMutation(graphene.Mutation):
             if query.first().password==password:
                 return AuthMutation(
                     access_token=encrypt_jwt(query.first().uuid),
-                    message="success"
                 )       
             else:
-                return AuthMutation(
-                    message="error: incorrect password"
-                )
+                raise GraphQLError('error: incorrect password')
         else:
-            return AuthMutation(
-                message="error: incorrect phoneNum"
-            )
+            raise GraphQLError('error: incorrect phoneNum')
 
 
 class Mutation(graphene.ObjectType):
