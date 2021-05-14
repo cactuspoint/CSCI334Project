@@ -15,6 +15,3 @@ def decrypt_jwt(input_string):
     except:
         pass
     return output_string
-
-def AuthMiddleware(next, root, info, **args):
-    return next(root, info, **args)
