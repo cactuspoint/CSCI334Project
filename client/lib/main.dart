@@ -2,11 +2,37 @@ import 'dart:ui';
 import 'welcome.dart';
 import 'login.dart';
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'globals.dart' as globals;
 
 void main() {
-  runApp(MyApp());
+  runApp(GraphqlApp());
   globals.jwt = "hello";
+}
+
+class GraphqlApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final HttpLink link = HttpLink(
+      'http://127.0.0.1:5000/graphql',
+    );
+
+    ValueNotifier<GraphQLClient> client = ValueNotifier(
+      GraphQLClient(
+        link: link,
+        // The default store is the InMemoryStore, which does NOT persist to disk
+        // store: GraphQLCache(store: HiveStore()),
+        cache: GraphQLCache(),
+      ),
+    );
+
+    return GraphQLProvider(
+      client: client,
+      child: CacheProvider(
+        child: MyApp(),
+      ),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
