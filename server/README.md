@@ -17,13 +17,12 @@ poetry run ./main.py
 By visiting the server on http://localhost:5000/graphql you can input various queries
 
 ### Login query 
-auth(phone_num, password) -> accessToken, message
+auth(phone_num, password) -> accessToken (orr throw's error for invalid phoneNum or password)
 e.g.
 ```
 mutation {
   auth(phoneNum:"0401", password:"rawpass") {
     accessToken
-    message
   }
 }
 ```  
@@ -33,7 +32,6 @@ will return
   "data": {
     "auth": {
       "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoxfQ.4YFfGcdP5RSECkNMgSQV3DVC9rrtC2-5Df3gyJ2dywA",
-      "message": "success"
     }
   }
 }
