@@ -2,9 +2,11 @@ import 'dart:ui';
 import 'welcome.dart';
 import 'login.dart';
 import 'package:flutter/material.dart';
+import 'globals.dart' as globals;
 
 void main() {
   runApp(MyApp());
+  globals.jwt = "hello";
 }
 
 class MyApp extends StatelessWidget {

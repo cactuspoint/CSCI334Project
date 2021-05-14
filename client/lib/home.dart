@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'globals.dart' as globals;
 
 class HomePage extends StatefulWidget {
   @override
@@ -19,7 +20,7 @@ class _HomePageState extends State<HomePage> {
         Navigator.pop(context);
         Navigator.pop(context);
       },
-      child: Text("logout"),
+      child: Text(globals.jwt),
     )));
   }
 }
