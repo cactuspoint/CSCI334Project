@@ -14,7 +14,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       // appBar: AppBar(title: Text('Alerts'),),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           Container(
-            padding: EdgeInsets.fromLTRB(16, 4, 16, 4),
+            padding: EdgeInsets.fromLTRB(16, 120, 16, 4),
             // padding: EdgeInsets.symmetric(horizontal: 8.0),
             child: SizedBox(
               width: double.infinity,
