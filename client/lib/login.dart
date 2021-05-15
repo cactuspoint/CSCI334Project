@@ -13,6 +13,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   OnMutationUpdate get update => (cache, result) {
         if (result.hasException) {
+          // Todo : add different exception handling
           print(result.exception);
           _simpleAlert(context, "Critcal error, server offline");
           // Navigator.of(context).pop();
