@@ -17,27 +17,50 @@ poetry run ./main.py
 By visiting the server on http://localhost:5000/graphql you can input various queries
 
 ### Login query 
-auth(username, password) -> accessToken, message
-where accessToken is a JWT and message is pass/fail message
+auth(phone_num, password) -> accessToken (orr throw's error for invalid phoneNum or password)
+e.g.
 ```
 mutation {
-  auth(username:"acarter", password:"rawpass") {
+  auth(phoneNum:"0401", password:"rawpass") {
     accessToken
-    message
+  }
+}
+```  
+will return
+```
+{
+  "data": {
+    "auth": {
+      "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoxfQ.4YFfGcdP5RSECkNMgSQV3DVC9rrtC2-5Df3gyJ2dywA",
+    }
   }
 }
 ```
+where accessToken is a JWT and message is pass/fail message
 
 ### Data query
 person(uuid, jwt) -> Person
-where Person is the Person's data with the uuid, uuid
+*Note* UUID can be a blank string for unprivileged requests
+e.g.
 ```
 query{
-  person(uuid:1, jwt:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6MX0.psvcsWpD8k8ToNASO4RsXp6EM0NJhz4fu2gpIN_4V_E"){
+  person(uuid:1, jwt:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoxfQ.4YFfGcdP5RSECkNMgSQV3DVC9rrtC2-5Df3gyJ2dywA"){
     fName
   }
 }
 ```
-the jwt string can be decrypted to find the uuid of the user who sent this query and depending on either the access level or if the jwt_uuid==query_uuid the amount of data returned from the query can be modified
+will return
+```
+{
+  "data": {
+    "person": {
+      "fName": "alex"
+    }
+  }
+}
+```
+where fName is the requested data of the person with the uuid of 1
+
+The jwt string can be decrypted to find the uuid of the user who sent this query and depending on either the access level or if the jwt_uuid==query_uuid the amount of data returned from the query can be modified
 
 

@@ -1,49 +1,72 @@
 import graphene
+import uuid
+from graphql import GraphQLError
 from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
-from sqlalchemy import Column, Integer, ForeignKey
-
+from sqlalchemy import and_
 from . middleware import encrypt_jwt, decrypt_jwt
-from . models import *
-from . database import session
+from . models import db_session, Person as PersonModel, Vaccine as VaccineModel
 
-### Mutations 
-
-class AuthMutation(graphene.Mutation):
-    class Arguments(object):
-        username = graphene.String()
-        password = graphene.String()
-
-    access_token = graphene.String()
-    message = graphene.String()
-
-    @classmethod
-    def mutate(cls, _, info, username, password):
-        query = Person.get_query(info).filter_by(username=username)
-        if query.first() and query.first().password==password:
-            return AuthMutation(
-                access_token=encrypt_jwt(query.first().uuid),
-                message="success"
-            )
-        else:
-            return AuthMutation(
-                message="error: no user by that username"
-            )
-
-
-class Mutation(graphene.ObjectType):
-    auth = AuthMutation.Field()
-
-### Queries
-
+### Setup Models
 class Person(SQLAlchemyObjectType):
     class Meta:
         model = PersonModel
         interfaces = (graphene.relay.Node, )
 
-class Article(SQLAlchemyObjectType):
+class Vaccine(SQLAlchemyObjectType):
     class Meta:
-        model = ArticleModel
+        model = VaccineModel
         interfaces = (graphene.relay.Node, )
+
+### Mutations 
+
+class SignUpMutation(graphene.Mutation):
+    class Arguments(object):
+        phoneNum = graphene.String()
+        password = graphene.String()
+        firstName = graphene.String()
+        lastName = graphene.String()
+
+    access_token = graphene.String()
+
+    @classmethod
+    def mutate(cls, _, info, phoneNum, password, firstName, lastName):
+        query = db_session.query(PersonModel).filter(PersonModel.phone_num == phoneNum).first()
+        if not query:
+            user = PersonModel(uuid=str(uuid.uuid1()), phone_num=phoneNum, password=password, first_name=firstName, last_name=lastName)
+            db_session.add(user)
+            db_session.commit()
+            return SignUpMutation(
+                access_token=encrypt_jwt(user.uuid),
+            ) 
+        else:
+            raise GraphQLError('error: user already exists')
+
+class AuthMutation(graphene.Mutation):
+    class Arguments(object):
+        phoneNum = graphene.String()
+        password = graphene.String()
+
+    access_token = graphene.String()
+
+    @classmethod
+    def mutate(cls, _, info, phoneNum, password):
+        query = db_session.query(PersonModel).filter(PersonModel.phone_num == phoneNum).first()
+        if query:
+            if query.password == password:
+                return AuthMutation(
+                    access_token=encrypt_jwt(query.uuid),
+                )       
+            else:
+                raise GraphQLError('error: incorrect password')
+        else:
+            raise GraphQLError('error: incorrect phoneNum')
+
+
+class Mutation(graphene.ObjectType):
+    auth = AuthMutation.Field()
+    signUp = SignUpMutation.Field()
+
+### Queries
         
 class Query(graphene.ObjectType):
     node = graphene.relay.Node.Field()
