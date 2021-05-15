@@ -11,10 +11,7 @@ class _SignUpState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: AppBar(title: Text('Alerts'),),
-        body: SingleChildScrollView(
-      padding: EdgeInsets.only(top: 80),
-      child: Column(
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -104,12 +101,6 @@ class _SignUpState extends State<SignUpPage> {
           ),
         ],
       ),
-    )
-
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () {},
-
-        // ),
-        );
+    );
   }
 }
