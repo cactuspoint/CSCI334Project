@@ -49,6 +49,9 @@ class _LoginPageState extends State<LoginPage> {
         // }
       };
 
+  final phoneController = TextEditingController();
+  final passController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     const String authenticate = '''
@@ -86,6 +89,7 @@ class _LoginPageState extends State<LoginPage> {
             padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
             alignment: Alignment.center,
             child: TextField(
+              controller: phoneController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Mobile number',
@@ -97,6 +101,7 @@ class _LoginPageState extends State<LoginPage> {
             padding: EdgeInsets.fromLTRB(16, 4, 16, 16),
             alignment: Alignment.center,
             child: TextField(
+              controller: passController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Password',
@@ -143,8 +148,10 @@ class _LoginPageState extends State<LoginPage> {
                         padding: EdgeInsets.symmetric(vertical: 16.0),
                       ),
                       onPressed: () {
-                        _authenticate(
-                            {'phoneNum': '0401', 'password': 'rawpass'});
+                        _authenticate({
+                          'phoneNum': phoneController.text,
+                          'password': passController.text
+                        });
                       },
                       child: Text(
                         'LOG IN',
