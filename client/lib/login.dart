@@ -12,8 +12,18 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   OnMutationUpdate get update => (cache, result) {
-        // if (result.hasException) {
-        //   print(result.exception);
+        if (result.hasException) {
+          print(result.exception);
+          _simpleAlert(context, "Critcal error, server offline");
+          // Navigator.of(context).pop();
+          // Navigator.of(context).pop();
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => DashboardPage()));
+        } else {
+          globals.jwt = result.data['action']['accessToken'].toString();
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => DashboardPage()));
+        }
         // } else {
         //   final updated = {
         //     ...repository,
@@ -120,19 +130,11 @@ class _LoginPageState extends State<LoginPage> {
             // padding: EdgeInsets.symmetric(horizontal: 8.0),
             child: Mutation(
                 options: MutationOptions(
-                    document: gql(authenticate),
-                    update: update,
-                    onError: (OperationException error) =>
-                        _simpleAlert(context, error.toString()),
-                    onCompleted: (dynamic resultData) => {
-                          globals.jwt =
-                              resultData['action']['accessToken'].toString(),
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DashboardPage()),
-                          )
-                        }),
+                  document: gql(authenticate),
+                  update: update,
+                  onError: (OperationException error) =>
+                      _simpleAlert(context, error.toString()),
+                ),
                 builder: (RunMutation _authenticate, QueryResult result) {
                   return SizedBox(
                     width: double.infinity,
@@ -143,11 +145,6 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         _authenticate(
                             {'phoneNum': '0401', 'password': 'rawpass'});
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DashboardPage()),
-                        );
                       },
                       child: Text(
                         'LOG IN',
