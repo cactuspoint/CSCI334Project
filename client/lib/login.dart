@@ -92,7 +92,6 @@ class _LoginPageState extends State<LoginPage> {
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Mobile number',
-                prefixText: '04',
               ),
             ),
           ),
