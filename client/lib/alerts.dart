@@ -9,37 +9,22 @@ class _AlertsPageState extends State<AlertsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Alerts'),
-      // ),
-      body: ListView(
-        padding: EdgeInsets.only(top: 120),
-        children: <Widget>[    
-          ListTile(
-            title: Text('Alert title 1'),
-            subtitle: Text('Fugit praesentium tempora odio voluptatem animi. Laborum cum commodi libero assumenda.', 
-            style: TextStyle(
-                // fontSize: 16.0,
-                height: 1.5,
-              ),
-            ),
-            // trailing: Icon(Icons.tune),
-          ),  
-          ListTile(
-            title: Text('Alert title 2'),
-            subtitle: Text('Fugit praesentium tempora odio voluptatem animi. Laborum cum commodi libero assumenda.',
-            style: TextStyle(
-                // fontSize: 16.0,
-                height: 1.5,
-              ),
-            ),
+        // appBar: AppBar(title: Text('Alerts'),),
+        body: ListView(
+      padding: EdgeInsets.only(top: 120),
+      children: <Widget>[
+        ListTile(
+          title: Text('Example Alert 1 title'),
+          subtitle: Text(
+            'Example Text.',
           ),
-          ListTile(
-            title: Text('Alert title 3'),
-            subtitle: Text('Fugit praesentium tempora odio voluptatem animi. Laborum cum commodi libero assumenda.'),
-          ),
-        ],
-      )
-    );
+        ),
+        ListTile(
+          title: Text('Example Alert 2 title'),
+          subtitle: Text(
+              'Long example text. Long example text. Long example text. Long example text. Long example text. Long example text. Long example text. Long example text. Long example text. Long example text. Long example text. Long example text.'),
+        ),
+      ],
+    ));
   }
 }
