@@ -70,7 +70,7 @@ class Mutation(graphene.ObjectType):
         
 class Query(graphene.ObjectType):
     node = graphene.relay.Node.Field()
-    person = graphene.Field(Person, uuid=graphene.Int(), jwt=graphene.String())
+    person = graphene.Field(Person, uuid=graphene.String(), jwt=graphene.String())
     def resolve_person(self, info, uuid, jwt):
         auth_uuid = ""
         if jwt != "":
@@ -78,7 +78,10 @@ class Query(graphene.ObjectType):
         print("user logged in is : {}".format(auth_uuid))
         ### As of here the auth_uuid = the uuid of the user logged in
         query = Person.get_query(info)
-        return query.get(uuid)
+        if auth_uuid != "" and uuid == "":
+            return query.get(auth_uuid)
+        else:
+            return query.get(uuid)
 
 ### Setup
 
