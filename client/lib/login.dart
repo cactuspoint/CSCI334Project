@@ -1,9 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'dashboard.dart';
-import 'globals.dart' as globals;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -11,45 +9,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  OnMutationUpdate get update => (cache, result) {
-        // if (result.hasException) {
-        //   print(result.exception);
-        // } else {
-        //   final updated = {
-        //     ...repository,
-        //     ...extractRepositoryData(result.data),
-        //   };
-        //   cache.writeFragment(
-        //     Fragment(
-        //       document: gql(
-        //         '''
-        //           fragment fields on Repository {
-        //             id
-        //             name
-        //             viewerHasStarred
-        //           }
-        //           ''',
-        //       ),
-        //     ).asRequest(idFields: {
-        //       '__typename': updated['__typename'],
-        //       'id': updated['id'],
-        //     }),
-        //     data: updated,
-        //   );
-        // }
-      };
-
   @override
   Widget build(BuildContext context) {
-    const String authenticate = '''
-    mutation Authenticate(\$phoneNum: String!, \$password: String!){
-      action: auth(phoneNum: \$phoneNum, password: \$password){
-        accessToken
-        message
-      }
-    }
-    ''';
-
     return Scaffold(
       // appBar: AppBar(
       //     title: Text('COVID Alert'),
@@ -118,64 +79,31 @@ class _LoginPageState extends State<LoginPage> {
           Container(
             padding: EdgeInsets.fromLTRB(16, 4, 16, 24),
             // padding: EdgeInsets.symmetric(horizontal: 8.0),
-            child: Mutation(
-                options: MutationOptions(
-                    document: gql(authenticate),
-                    update: update,
-                    onError: (OperationException error) =>
-                        _simpleAlert(context, error.toString()),
-                    onCompleted: (dynamic resultData) => {
-                          globals.jwt =
-                              resultData['action']['accessToken'].toString(),
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DashboardPage()),
-                          )
-                        }),
-                builder: (RunMutation _authenticate, QueryResult result) {
-                  return SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 16.0),
-                      ),
-                      onPressed: () {
-                        _authenticate(
-                            {'phoneNum': '0401', 'password': 'rawpass'});
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DashboardPage()),
-                        );
-                      },
-                      child: Text(
-                        'LOG IN',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 16.0),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DashboardPage()),
                   );
-                }),
+                },
+                child: Text(
+                  'LOG IN',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+            ),
           ),
         ],
       ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {},
+
+      // ),
     );
   }
 }
-
-void _simpleAlert(BuildContext context, String text) => showDialog<AlertDialog>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(text),
-          actions: <Widget>[
-            SimpleDialogOption(
-              child: const Text('DISMISS'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            )
-          ],
-        );
-      },
-    );
