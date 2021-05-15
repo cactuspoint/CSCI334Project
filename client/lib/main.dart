@@ -1,4 +1,6 @@
 import 'dart:ui';
+import 'package:flutter/services.dart';
+
 import 'welcome.dart';
 import 'login.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +40,10 @@ class GraphqlApp extends StatelessWidget {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       home: WelcomePage(),
       themeMode: ThemeMode.system,
