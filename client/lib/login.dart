@@ -58,7 +58,6 @@ class _LoginPageState extends State<LoginPage> {
     mutation Authenticate(\$phoneNum: String!, \$password: String!){
       action: auth(phoneNum: \$phoneNum, password: \$password){
         accessToken
-        message
       }
     }
     ''';
