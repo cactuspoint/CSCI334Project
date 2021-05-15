@@ -24,7 +24,9 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2 # adds the Cupertino Icons font to your application.
-  graphql_flutter: ^4.0.1
+  graphql_flutter: ^4.0.1 
+  path:                   # define the locations within directory structure
+  qr_flutter: ^4.0.0      # generates images of QR code
 
 dev_dependencies:
   flutter_test:

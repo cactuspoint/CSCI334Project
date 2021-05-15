@@ -1,9 +1,12 @@
 import 'dart:ui';
-import 'alerts.dart';
-import 'map.dart';
 import 'welcome.dart';
 import 'login.dart';
 import 'home.dart';
+import 'visits.dart';
+import 'alerts.dart';
+import 'documents.dart';
+import 'reports.dart';
+
 import 'package:flutter/material.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -16,9 +19,10 @@ class _DashboardPageState extends State<DashboardPage> {
   PageController _pageController = PageController();
   List<Widget> _screens = [
     HomePage(),
+    ReportsPage(),
+    DocumentsPage(),
+    VisitsPage(),
     AlertsPage(),
-    MapsPage(),
-    // Reports(),
   ];
 
   void _onPageChanged(int index) {
@@ -54,12 +58,20 @@ class _DashboardPageState extends State<DashboardPage> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.warning),
-            label: 'Alerts',
+            icon: Icon(Icons.assessment),
+            label: 'Reports',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: 'Map',
+            icon: Icon(Icons.file_copy),
+            label: 'Documents',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.assistant_photo_rounded),
+            label: 'Visits',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.announcement),
+            label: 'Alerts',
           ),
           // BottomNavigationBarItem(
           // icon: Icon(

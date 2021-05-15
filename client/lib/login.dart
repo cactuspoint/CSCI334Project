@@ -1,7 +1,8 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'dashboard.dart';
+import 'globals.dart' as globals;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -130,18 +131,6 @@ class _LoginPageState extends State<LoginPage> {
           Container(
             padding: EdgeInsets.fromLTRB(16, 4, 16, 24),
             // padding: EdgeInsets.symmetric(horizontal: 8.0),
-<<<<<<< HEAD
-            child: SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => DashboardPage()),
-=======
             child: Mutation(
                 options: MutationOptions(
                   document: gql(authenticate),
@@ -167,22 +156,28 @@ class _LoginPageState extends State<LoginPage> {
                         style: TextStyle(fontSize: 16),
                       ),
                     ),
->>>>>>> gql-server
                   );
-                },
-                child: Text(
-                  'LOG IN',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-            ),
+                }),
           ),
         ],
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {},
-
-      // ),
     );
   }
 }
+
+void _simpleAlert(BuildContext context, String text) => showDialog<AlertDialog>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(text),
+          actions: <Widget>[
+            SimpleDialogOption(
+              child: const Text('DISMISS'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
