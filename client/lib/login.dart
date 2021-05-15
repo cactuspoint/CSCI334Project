@@ -39,6 +39,12 @@ class _LoginPageState extends State<LoginPage> {
         // }
       };
 
+  var _phoneNum;
+  var _password;
+
+  final phoneNumController = new TextEditingController();
+  final passwordController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     const String authenticate = '''
@@ -76,6 +82,8 @@ class _LoginPageState extends State<LoginPage> {
             padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
             alignment: Alignment.center,
             child: TextField(
+              controller: phoneNumController,
+              keyboardType: TextInputType.phone,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Mobile number',
@@ -87,6 +95,8 @@ class _LoginPageState extends State<LoginPage> {
             padding: EdgeInsets.fromLTRB(16, 4, 16, 16),
             alignment: Alignment.center,
             child: TextField(
+              controller: passwordController,
+              keyboardType: TextInputType.visiblePassword,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Password',
