@@ -35,6 +35,7 @@ class _SignUpState extends State<SignUpPage> {
             padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
             alignment: Alignment.center,
             child: TextField(
+              keyboardType: TextInputType.phone,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Mobile number',
@@ -46,6 +47,7 @@ class _SignUpState extends State<SignUpPage> {
             padding: EdgeInsets.fromLTRB(16, 4, 16, 8),
             alignment: Alignment.center,
             child: TextField(
+              keyboardType: TextInputType.visiblePassword,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Password',
@@ -56,6 +58,7 @@ class _SignUpState extends State<SignUpPage> {
             padding: EdgeInsets.fromLTRB(16, 4, 16, 16),
             alignment: Alignment.center,
             child: TextField(
+              keyboardType: TextInputType.visiblePassword,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Confirm Password',
