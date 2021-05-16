@@ -27,6 +27,7 @@ dependencies:
   graphql_flutter: ^4.0.1 
   path:                   # define the locations within directory structure
   qr_flutter: ^4.0.0      # generates images of QR code
+  qr_code_scanner:        # decode string of QR code
 
 dev_dependencies:
   flutter_test:
