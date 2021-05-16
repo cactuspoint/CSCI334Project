@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'login.dart';
 import 'signup.dart';
+import 'dashboard.dart';
 import 'package:flutter/material.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -79,6 +80,21 @@ class _WelcomePageState extends State<WelcomePage> {
                   'LOG IN',
                   style: TextStyle(fontSize: 16),
                 ),
+              ),
+            ),
+          ),
+          Center(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 16.0),
+              ),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => DashboardPage()));
+              },
+              child: Text(
+                'Bypass Login',
+                style: TextStyle(fontSize: 16),
               ),
             ),
           ),
