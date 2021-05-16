@@ -9,7 +9,6 @@ import 'globals.dart' as globals;
 
 void main() {
   runApp(GraphqlApp());
-  globals.jwt = "hello";
 }
 
 class GraphqlApp extends StatelessWidget {
