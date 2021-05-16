@@ -11,42 +11,31 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   OnMutationUpdate get update => (cache, result) {
+        bool showDash = true;
         if (result.hasException) {
-          // Todo : add different exception handling
           print(result.exception);
-          _simpleAlert(context, "Critcal error, server offline");
-          // Navigator.of(context).pop();
-          // Navigator.of(context).pop();
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => DashboardPage()));
+          if (result.exception.graphqlErrors[0] != null) {
+            if (result.exception.graphqlErrors[0].message ==
+                "error: incorrect password") {
+              passController.text = "";
+              showDash = false;
+              _simpleAlert(context, "Incorrect password");
+            } else if (result.exception.graphqlErrors[0].message ==
+                "error: incorrect phoneNum") {
+              phoneController.text = "";
+              showDash = false;
+              _simpleAlert(context, "Incorrect phone number");
+            }
+          }
+          if (showDash) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => DashboardPage()));
+          }
         } else {
           globals.jwt = result.data['action']['accessToken'].toString();
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => DashboardPage()));
         }
-        // } else {
-        //   final updated = {
-        //     ...repository,
-        //     ...extractRepositoryData(result.data),
-        //   };
-        //   cache.writeFragment(
-        //     Fragment(
-        //       document: gql(
-        //         '''
-        //           fragment fields on Repository {
-        //             id
-        //             name
-        //             viewerHasStarred
-        //           }
-        //           ''',
-        //       ),
-        //     ).asRequest(idFields: {
-        //       '__typename': updated['__typename'],
-        //       'id': updated['id'],
-        //     }),
-        //     data: updated,
-        //   );
-        // }
       };
 
   final phoneController = TextEditingController();
@@ -88,6 +77,7 @@ class _LoginPageState extends State<LoginPage> {
             padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
             alignment: Alignment.center,
             child: TextField(
+              keyboardType: TextInputType.phone,
               controller: phoneController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
@@ -135,8 +125,8 @@ class _LoginPageState extends State<LoginPage> {
                 options: MutationOptions(
                   document: gql(authenticate),
                   update: update,
-                  onError: (OperationException error) =>
-                      _simpleAlert(context, error.toString()),
+                  // onError: (OperationException error) =>
+                  //     _simpleAlert(context, error.toString()),
                 ),
                 builder: (RunMutation _authenticate, QueryResult result) {
                   return SizedBox(
