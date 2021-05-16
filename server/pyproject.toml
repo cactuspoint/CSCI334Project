@@ -5,11 +5,12 @@ description = ""
 authors = ["Alex Carter <acarter010204@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.8"
 graphene = "^2.1.8"
 SQLAlchemy = "^1.4.14"
 graphene-sqlalchemy = "^2.3.0"
 Flask-GraphQL = "^2.0.1"
+PyJWT = "^2.1.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
