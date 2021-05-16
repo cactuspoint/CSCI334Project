@@ -27,6 +27,10 @@ class _VisitsPageState extends State<VisitsPage> {
               );
             },
           ),
+          ElevatedButton(
+            child: Text('Get Device Location'),
+            onPressed: () {},
+          ),       
         ])));
   }
 }
