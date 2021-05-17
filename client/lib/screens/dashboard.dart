@@ -1,6 +1,4 @@
 import 'dart:ui';
-import 'package:client/screens/welcome.dart';
-import 'package:client/screens/login.dart';
 import 'package:client/screens/home.dart';
 import 'package:client/screens/visits.dart';
 import 'package:client/screens/alerts.dart';
