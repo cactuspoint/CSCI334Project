@@ -49,6 +49,16 @@ class DatabaseHelper {
       whereArgs: [id],
     );
   }
+
+  static Future<void> deleteVisitsOlderThanNdays(int nDays) async {
+    var rows = await DatabaseHelper.getAllRows();
+    rows.forEach((row) {
+      if (DateTime.parse(row['datetime'])
+          .isBefore(DateTime.now().subtract(Duration(days: nDays)))) {
+        DatabaseHelper.deleteVisitById(row['id']);
+      }
+    });
+  }
 }
 
 class Visit {
