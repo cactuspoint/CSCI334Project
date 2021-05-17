@@ -35,6 +35,11 @@ class DatabaseHelper {
     final Database db = await getDatabase();
     await db.execute('DELETE FROM ${table}');
   }
+
+  static Future<void> executeArbitrarySQL(String s) async {
+    final Database db = await getDatabase();
+    await db.execute(s);
+  }
 }
 
 class Visit {
