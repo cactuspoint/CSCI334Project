@@ -2,6 +2,11 @@ import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+/// A helper class to operate on a SQL-Lite local database with sqflite.
+/// ```dart
+/// DatabaseHelper.insertVisit(Visit visit);          // add a Visit to the database
+/// DatabaseHelper.deleteVisitsOlderThanNdays(int n); // drop all visits older than n days
+/// ```
 class DatabaseHelper {
   static final table = 'visits';
 
