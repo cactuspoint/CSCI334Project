@@ -40,6 +40,15 @@ class DatabaseHelper {
     final Database db = await getDatabase();
     await db.execute(s);
   }
+
+  static Future<void> deleteVisitById(int id) async {
+    final Database db = await getDatabase();
+    await db.delete(
+      '${table}',
+      where: "id = ?",
+      whereArgs: [id],
+    );
+  }
 }
 
 class Visit {
