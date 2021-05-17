@@ -25,6 +25,11 @@ class DatabaseHelper {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
+
+  static Future<List<Map<String, dynamic>>> getAllRows() async {
+    final Database db = await getDatabase();
+    return await db.query(table);
+  }
 }
 
 class Visit {
