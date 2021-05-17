@@ -11,6 +11,7 @@ class DatabaseHelper {
           "CREATE TABLE visits(id INTEGER PRIMARY KEY, datetime TEXT, location TEXT)",
         );
       },
+      version: 1,
     );
   }
 
