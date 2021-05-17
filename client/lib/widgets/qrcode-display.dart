@@ -7,8 +7,8 @@ import 'package:qr_flutter/qr_flutter.dart';
 /// ```dart
 /// QRcode('hello', 200) // example code for widget
 /// ```
-class QRcode extends StatelessWidget {
-  const QRcode(this.data, this.size);
+class QRcodeDisplay extends StatelessWidget {
+  const QRcodeDisplay(this.data, this.size);
   final String data; // String that is represented by the QRcode
   final double size; // width and height of QRcode in pixels
 

@@ -3,12 +3,14 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
+  static final table = 'visits';
+
   static Future<Database> getDatabase() async {
     return openDatabase(
-      join(await getDatabasesPath(), 'visits_database.db'),
+      join(await getDatabasesPath(), '${table}_database.db'),
       onCreate: (db, version) {
         return db.execute(
-          "CREATE TABLE visits(id INTEGER PRIMARY KEY, datetime TEXT, location TEXT)",
+          "CREATE TABLE ${table}(id INTEGER PRIMARY KEY, datetime TEXT, location TEXT)",
         );
       },
       version: 1,
@@ -18,7 +20,7 @@ class DatabaseHelper {
   static Future<void> insertVisit(Visit visit) async {
     final Database db = await getDatabase();
     await db.insert(
-      'visits',
+      '${table}',
       visit.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -38,6 +40,6 @@ class Visit {
 
   @override
   String toString() {
-    return "id:${id.toString()} datetime:$datetime location:$location";
+    return "id:${id.toString()} datetime:${datetime} location:${location}";
   }
 }
