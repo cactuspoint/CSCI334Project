@@ -8,14 +8,16 @@ import 'package:sqflite/sqflite.dart';
 /// DatabaseHelper.deleteVisitsOlderThanNdays(int n); // drop all visits older than n days
 /// ```
 class DatabaseHelper {
-  static final table = 'visits';
+  static final dbName = 'locations';
+  static final visitsTable = 'visits';
+  static final exposureSitesTable = 'exposureSites';
 
   static Future<Database> getDatabase() async {
     return openDatabase(
-      join(await getDatabasesPath(), '${table}_database.db'),
+      join(await getDatabasesPath(), '${dbName}_database.db'),
       onCreate: (db, version) {
         return db.execute(
-          "CREATE TABLE ${table}(datetime TEXT PRIMARY KEY, location TEXT)",
+          "CREATE TABLE ${visitsTable}(datetime TEXT PRIMARY KEY, location TEXT); CREATE TABLE ${exposureSitesTable}(datetime TEXT PRIMARY KEY, location TEXT);",
         );
       },
       version: 1,
@@ -25,7 +27,7 @@ class DatabaseHelper {
   static Future<void> insertVisit(Visit visit) async {
     final Database db = await getDatabase();
     await db.insert(
-      '${table}',
+      '${visitsTable}',
       visit.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -33,12 +35,12 @@ class DatabaseHelper {
 
   static Future<List<Map<String, dynamic>>> getAllRows() async {
     final Database db = await getDatabase();
-    return await db.query(table);
+    return await db.query(visitsTable);
   }
 
   static Future<void> deleteAllRows() async {
     final Database db = await getDatabase();
-    await db.execute('DELETE FROM ${table}');
+    await db.execute('DELETE FROM ${visitsTable}');
   }
 
   static Future<void> executeArbitrarySQL(String s) async {
@@ -49,7 +51,7 @@ class DatabaseHelper {
   static Future<void> deleteVisit(String datetime) async {
     final Database db = await getDatabase();
     await db.delete(
-      '${table}',
+      '${visitsTable}',
       where: "datetime = ?",
       whereArgs: [datetime],
     );
