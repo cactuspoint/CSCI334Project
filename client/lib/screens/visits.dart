@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:client/dashboard.dart';
+import 'package:client/screens/dashboard.dart';
 import 'dart:io';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -30,7 +30,7 @@ class _VisitsPageState extends State<VisitsPage> {
           ElevatedButton(
             child: Text('Get Device Location'),
             onPressed: () {},
-          ),       
+          ),
         ])));
   }
 }

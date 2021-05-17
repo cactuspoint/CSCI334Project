@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'globals.dart' as globals;
+import '../utils/constants/app_globals.dart' as globals;
 
 class HomePage extends StatefulWidget {
   @override

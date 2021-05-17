@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-import 'login.dart';
-import 'signup.dart';
-import 'dashboard.dart';
+import 'package:client/screens/login.dart';
+import 'package:client/screens/signup.dart';
+import 'package:client/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 
 class WelcomePage extends StatefulWidget {

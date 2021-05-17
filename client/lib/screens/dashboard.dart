@@ -1,11 +1,11 @@
 import 'dart:ui';
-import 'welcome.dart';
-import 'login.dart';
-import 'home.dart';
-import 'visits.dart';
-import 'alerts.dart';
-import 'documents.dart';
-import 'reports.dart';
+import 'package:client/screens/welcome.dart';
+import 'package:client/screens/login.dart';
+import 'package:client/screens/home.dart';
+import 'package:client/screens/visits.dart';
+import 'package:client/screens/alerts.dart';
+import 'package:client/screens/documents.dart';
+import 'package:client/screens/reports.dart';
 
 import 'package:flutter/material.dart';
 

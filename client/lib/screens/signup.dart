@@ -1,8 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'dashboard.dart';
-import 'globals.dart' as globals;
+import 'package:client/screens/dashboard.dart';
+import '../utils/constants/app_globals.dart' as globals;
 
 class SignUpPage extends StatefulWidget {
   @override

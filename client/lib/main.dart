@@ -1,11 +1,11 @@
 import 'dart:ui';
 import 'package:flutter/services.dart';
 
-import 'welcome.dart';
-import 'login.dart';
+import 'package:client/screens/welcome.dart';
+import 'package:client/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'globals.dart' as globals;
+import 'package:client/utils/constants/app_globals.dart' as globals;
 
 void main() {
   runApp(GraphqlApp());
