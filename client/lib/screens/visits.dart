@@ -11,6 +11,8 @@ class VisitsPage extends StatefulWidget {
 }
 
 class _VisitsPageState extends State<VisitsPage> {
+  String currentLocation = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,8 +39,8 @@ class _VisitsPageState extends State<VisitsPage> {
           ElevatedButton(
             child: Text('Confirm'),
             onPressed: () {
-              Visit v = Visit(0, DateTime.now().toIso8601String(), "");
-              DatabaseHelper.insertVisit(v);
+              DatabaseHelper.insertVisit(
+                  new Visit(DateTime.now().toIso8601String(), currentLocation));
             },
           ),
         ])));
