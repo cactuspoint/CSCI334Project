@@ -28,6 +28,7 @@ dependencies:
   path:                   # define the locations within directory structure
   qr_flutter: ^4.0.0      # generates images of QR code
   qr_code_scanner:        # decode string of QR code
+  sqflite:                # interact with a SQLite database
 
 dev_dependencies:
   flutter_test:
