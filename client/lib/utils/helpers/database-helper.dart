@@ -30,6 +30,11 @@ class DatabaseHelper {
     final Database db = await getDatabase();
     return await db.query(table);
   }
+
+  static Future<void> deleteAllRows() async {
+    final Database db = await getDatabase();
+    await db.execute('DELETE FROM ${table}');
+  }
 }
 
 class Visit {
