@@ -10,7 +10,7 @@ class DatabaseHelper {
       join(await getDatabasesPath(), '${table}_database.db'),
       onCreate: (db, version) {
         return db.execute(
-          "CREATE TABLE ${table}(id INTEGER PRIMARY KEY, datetime TEXT, location TEXT)",
+          "CREATE TABLE ${table}(datetime TEXT PRIMARY KEY, location TEXT)",
         );
       },
       version: 1,
@@ -41,12 +41,12 @@ class DatabaseHelper {
     await db.execute(s);
   }
 
-  static Future<void> deleteVisitById(int id) async {
+  static Future<void> deleteVisit(String datetime) async {
     final Database db = await getDatabase();
     await db.delete(
       '${table}',
-      where: "id = ?",
-      whereArgs: [id],
+      where: "datetime = ?",
+      whereArgs: [datetime],
     );
   }
 
@@ -55,25 +55,24 @@ class DatabaseHelper {
     rows.forEach((row) {
       if (DateTime.parse(row['datetime'])
           .isBefore(DateTime.now().subtract(Duration(days: nDays)))) {
-        DatabaseHelper.deleteVisitById(row['id']);
+        DatabaseHelper.deleteVisit(row['datetime']);
       }
     });
   }
 }
 
 class Visit {
-  final int id; // dummy id for primary key
   final String datetime; // iso8601
   final String location; // iso6709
 
-  Visit(this.id, this.datetime, this.location);
+  Visit(this.datetime, this.location);
 
   Map<String, dynamic> toMap() {
-    return {'id': id, 'datetime': datetime, 'location': location};
+    return {'datetime': datetime, 'location': location};
   }
 
   @override
   String toString() {
-    return "id:${id.toString()} datetime:${datetime} location:${location}";
+    return "datetime:${datetime} location:${location}";
   }
 }
