@@ -15,7 +15,6 @@ class Person(Base):
     password = Column(String)
     first_name = Column(String)
     last_name = Column(String)
-
-class Vaccine(Base):
-    __tablename__ = 'Vaccine'    
-    person_id = Column(ForeignKey("Person.uuid"), primary_key=True)
+    vaccine_name = Column(String)
+    vaccine_inj = Column(Integer)
+    vaccine_rec_inj = Column(Integer)
