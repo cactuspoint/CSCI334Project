@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart' show TargetPlatform;
 
 import 'package:client/screens/welcome.dart';
 import 'package:client/screens/login.dart';
@@ -14,8 +15,14 @@ void main() {
 class GraphqlApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Use host IP if building for android sub device
+    var graphQLURL = 'http://127.0.0.1:5000/graphql';
+    if (Theme.of(context).platform == TargetPlatform.android) {
+      graphQLURL = 'http://10.0.2.2:5000/graphql';
+    }
+    // Create HttpLink from decided address above
     final HttpLink link = HttpLink(
-      'http://127.0.0.1:5000/graphql',
+      graphQLURL,
     );
 
     ValueNotifier<GraphQLClient> client = ValueNotifier(
