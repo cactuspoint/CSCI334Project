@@ -60,7 +60,7 @@ class _SignUpState extends State<SignUpPage> {
             Flexible(
               flex: 2,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 40.0),
                 // padding: EdgeInsets.only(left: 8),
                 // child: Text('Log in'),
                 child: Column(
@@ -149,11 +149,12 @@ class _SignUpState extends State<SignUpPage> {
             Flexible(
               child: Container(
                 // padding: EdgeInsets.fromLTRB(16, 20, 16, 4),
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: SizedBox(
                   width: double.infinity,
                   child: TextButton(
                     style: TextButton.styleFrom(
+                      // backgroundColor: Colors.white,
                       padding: EdgeInsets.symmetric(vertical: 16.0),
                     ),
                     onPressed: () {
