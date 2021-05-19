@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from gql_server import create_server
+from gql_server.app import create_server
 
 app = create_server(True)
 

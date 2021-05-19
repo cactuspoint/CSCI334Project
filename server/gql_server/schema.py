@@ -1,10 +1,14 @@
 import graphene
 import uuid
+import os
 from graphql import GraphQLError
 from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
 from sqlalchemy import and_
+from flask import request
+import pathlib
 from . middleware import encrypt_jwt, decrypt_jwt
 from . models import db_session, Person as PersonModel
+from . import UPLOAD_DIR
 
 # Setup Models
 
@@ -94,6 +98,13 @@ class Query(graphene.ObjectType):
             return query.uuid
         else:
             raise GraphQLError('error: no user by that phoneNum')
+    infectionLog = graphene.List(graphene.String, backLog=graphene.String())
+    def resolve_infectionLog(self, info, backLog):
+        paths = sorted(pathlib.Path(os.path.join(UPLOAD_DIR, 'logs')).iterdir(), key=os.path.getmtime)
+        log_paths = []
+        for path in paths:
+            log_paths.append(f'{request.url_root}dowload/log/{path.name}')
+        return log_paths
 
 
 # Setup
