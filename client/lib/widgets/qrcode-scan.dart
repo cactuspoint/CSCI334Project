@@ -1,3 +1,4 @@
+import 'package:client/utils/constants/app_globals.dart' as globals;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -65,6 +66,7 @@ class _QRcodeScanWidgetState extends State<QRcodeScanWidget> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
+        globals.currentLocation = result.code;
       });
     });
   }
