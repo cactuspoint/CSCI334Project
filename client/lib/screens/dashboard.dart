@@ -1,10 +1,8 @@
-import 'dart:ui';
 import 'package:client/screens/home.dart';
 import 'package:client/screens/visits.dart';
 import 'package:client/screens/alerts.dart';
 import 'package:client/screens/documents.dart';
 import 'package:client/screens/reports.dart';
-
 import 'package:flutter/material.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -24,9 +22,7 @@ class _DashboardPageState extends State<DashboardPage> {
   ];
 
   void _onPageChanged(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    setState(() => _selectedIndex = index);
   }
 
   void _onItemTapped(int selectedIndex) {
@@ -36,11 +32,6 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('COVID Alert'),
-      //   automaticallyImplyLeading: false,
-      // ),
-
       body: PageView(
         controller: _pageController,
         children: _screens,
@@ -71,17 +62,9 @@ class _DashboardPageState extends State<DashboardPage> {
             icon: Icon(Icons.announcement),
             label: 'Alerts',
           ),
-          // BottomNavigationBarItem(
-          // icon: Icon(
-          //   Icons.settings,
-          //   size: 24.0,
-          //   ),
-          // label: 'Settings',
-          // ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.pinkAccent,
-        //onTap: _onPageChanged,
       ),
     );
   }
