@@ -180,7 +180,7 @@ class _SignUpState extends State<SignUpPage> {
                     ),
                     
                     Container(
-                      padding: EdgeInsets.only(bottom: 16.0),
+                      padding: EdgeInsets.only(bottom: 24.0),
                       // padding: EdgeInsets.fromLTRB(16, 0, 16, 24),
                       // padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
                       child: SizedBox(
