@@ -7,8 +7,10 @@ import 'package:client/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:client/utils/constants/app_globals.dart' as globals;
+import 'package:client/utils/helpers/notification-helper.dart';
 
 void main() {
+  NotificationHelper.setup();
   runApp(GraphqlApp());
 }
 
@@ -43,7 +45,19 @@ class GraphqlApp extends StatelessWidget {
   }
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    NotificationHelper.openListeningStream();
+    NotificationHelper.unreadAlertNotification();
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
