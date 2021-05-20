@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-/// A widget to scan a QRcode with the camera.
+/// A widget to scan a QRcode with the camera
+/// global variable currentLocation is then set by the value of the encoded string
+/// ```dart
+/// QRcodeScanWidget() // Create the widget
+/// ```
 class QRcodeScanWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _QRcodeScanWidgetState();
