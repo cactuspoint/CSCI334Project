@@ -1,9 +1,7 @@
+import 'package:client/utils/constants/app_globals.dart' as globals;
 import 'package:flutter/material.dart';
-import 'package:client/screens/dashboard.dart';
 import 'package:client/utils/helpers/database-helper.dart';
 import 'package:client/widgets/qrcode-scan.dart';
-import 'dart:io';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class VisitsPage extends StatefulWidget {
   @override
@@ -11,8 +9,6 @@ class VisitsPage extends StatefulWidget {
 }
 
 class _VisitsPageState extends State<VisitsPage> {
-  String currentLocation = "";
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,8 +35,8 @@ class _VisitsPageState extends State<VisitsPage> {
           ElevatedButton(
             child: Text('Confirm'),
             onPressed: () {
-              DatabaseHelper.insertVisit(
-                  new Visit(DateTime.now().toIso8601String(), currentLocation));
+              DatabaseHelper.insertVisit(new Visit(
+                  DateTime.now().toIso8601String(), globals.currentLocation));
             },
           ),
         ])));
