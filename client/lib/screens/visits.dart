@@ -9,6 +9,8 @@ class VisitsPage extends StatefulWidget {
 }
 
 class _VisitsPageState extends State<VisitsPage> {
+  bool exposed = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,15 +34,28 @@ class _VisitsPageState extends State<VisitsPage> {
               child: Text('use Device Location'),
               onPressed: () {},
             ),
-            Text('\nPress Log Visit to log your visit:'),
+            Text('\nPress -Log Visit- to log your visit:'),
             ElevatedButton(
               child: Text('Log Visit'),
               onPressed: () {
-                DatabaseHelper.insertVisit(new Visit(
+                DatabaseHelper.insertVisit(Visit(
                     DateTime.now().toIso8601String(), globals.currentLocation));
               },
             ),
+            Text('\nPress -Exposed?- to check if you have been exposed:'),
+            ElevatedButton(
+              child: Text('Exposed?'),
+              onPressed: () {
+                checkExposed();
+              },
+            ),
+            Text('Exposure status: ${exposed.toString()}'),
           ]),
     ));
+  }
+
+  checkExposed() async {
+    exposed = await DatabaseHelper.exposed();
+    setState(() {});
   }
 }
