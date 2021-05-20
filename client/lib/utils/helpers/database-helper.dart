@@ -1,3 +1,4 @@
+import 'package:client/utils/constants/app_globals.dart' as globals;
 import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -94,6 +95,30 @@ class DatabaseHelper {
       Database db, String db2Path, String db2Alias) async {
     await db.rawQuery("ATTACH DATABASE '$db2Path' as '$db2Alias'");
     return db;
+  }
+
+  static Future<bool> exposed() async {
+    final Database db = await getDatabaseVisits(dbVisits);
+    final Database db2 = await getDatabaseExposures(dbExposures);
+
+    if (!globals.dbExposedAttached) {
+      await attachDb(
+          db,
+          join(await getDatabasesPath(), '${dbExposures}_database.db'),
+          dbExposures);
+      globals.dbExposedAttached = true;
+    }
+
+    int exposureCount =
+        Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) '
+            'FROM ${dbVisits} v, ${dbExposures}.${dbExposures} e '
+            'WHERE v.datetime = e.datetime AND v.location = e.location'));
+
+    if (exposureCount > 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 
