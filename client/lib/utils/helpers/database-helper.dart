@@ -8,61 +8,83 @@ import 'package:sqflite/sqflite.dart';
 /// DatabaseHelper.deleteVisitsOlderThanNdays(int n); // drop all visits older than n days
 /// ```
 class DatabaseHelper {
-  static final dbName = 'locations';
-  static final visitsTable = 'visits';
-  static final exposureSitesTable = 'exposureSites';
+  static final dbVisits = 'visits';
+  static final dbExposures = 'exposures';
 
-  static Future<Database> getDatabase() async {
+  static Future<Database> getDatabaseVisits(String dbName) async {
     return openDatabase(
       join(await getDatabasesPath(), '${dbName}_database.db'),
       onCreate: (db, version) {
         return db.execute(
-          "CREATE TABLE ${visitsTable}(datetime TEXT PRIMARY KEY, location TEXT); CREATE TABLE ${exposureSitesTable}(datetime TEXT PRIMARY KEY, location TEXT);",
+          'CREATE TABLE ${dbName}'
+          '('
+          'datetime TEXT PRIMARY KEY, '
+          'location TEXT'
+          ')',
         );
       },
       version: 1,
     );
   }
 
+  static Future<Database> getDatabaseExposures(String dbName) async {
+    String db2Path =
+        join(await getDatabasesPath(), '${dbExposures}_database.db');
+    return openDatabase(
+      join(await getDatabasesPath(), '${dbName}_database.db'),
+      onCreate: (db, version) {
+        return db.execute('CREATE TABLE ${dbName}'
+            '('
+            'datetime TEXT PRIMARY KEY, '
+            'location TEXT'
+            ')');
+      },
+      version: 1,
+    );
+  }
+
   static Future<void> insertVisit(Visit visit) async {
-    final Database db = await getDatabase();
+    final Database db = await getDatabaseVisits(dbVisits);
     await db.insert(
-      '${visitsTable}',
+      '${dbVisits}',
       visit.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
-  static Future<List<Map<String, dynamic>>> getAllRows() async {
-    final Database db = await getDatabase();
-    return await db.query(visitsTable);
+  static Future<List<Map<String, dynamic>>> getAllRows(String dbName) async {
+    final Database db = await getDatabaseVisits(dbName);
+    return await db.query(dbName);
   }
 
-  static Future<void> deleteAllRows() async {
-    final Database db = await getDatabase();
-    await db.execute('DELETE FROM ${visitsTable}');
+  static Future<void> deleteAllRows(String dbName) async {
+    final Database db = await getDatabaseVisits(dbName);
+    await db.execute('DELETE FROM ${dbName}');
   }
 
-  static Future<void> executeArbitrarySQL(String s) async {
-    final Database db = await getDatabase();
+  static Future<void> executeArbitrarySQL(String dbName, String s) async {
+    final Database db = await getDatabaseVisits(dbName);
     await db.execute(s);
   }
 
-  static Future<void> deleteVisit(String datetime) async {
-    final Database db = await getDatabase();
+  static Future<void> deleteVisit(String dbName, String datetime) async {
+    final Database db = await getDatabaseVisits(dbName);
     await db.delete(
-      '${visitsTable}',
+      '${dbName}',
       where: "datetime = ?",
       whereArgs: [datetime],
     );
   }
 
-  static Future<void> deleteVisitsOlderThanNdays(int nDays) async {
-    var rows = await DatabaseHelper.getAllRows();
+  static Future<void> deleteVisitsOlderThanNdays(
+      String dbName, int nDays) async {
+    var rows = await DatabaseHelper.getAllRows(
+      dbName,
+    );
     rows.forEach((row) {
       if (DateTime.parse(row['datetime'])
           .isBefore(DateTime.now().subtract(Duration(days: nDays)))) {
-        DatabaseHelper.deleteVisit(row['datetime']);
+        DatabaseHelper.deleteVisit(dbName, row['datetime']);
       }
     });
   }
