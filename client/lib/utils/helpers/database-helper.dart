@@ -88,6 +88,13 @@ class DatabaseHelper {
       }
     });
   }
+
+  /// Attach a databse to another
+  static Future<Database> attachDb(
+      Database db, String db2Path, String db2Alias) async {
+    await db.rawQuery("ATTACH DATABASE '$db2Path' as '$db2Alias'");
+    return db;
+  }
 }
 
 class Visit {
