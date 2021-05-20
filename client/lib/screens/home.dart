@@ -46,7 +46,12 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: (context, index) {
               // final repository = repositories[index];
 
-              return Text("Hello " + firstName + " " + lastName);
+              return Text(
+                "Hello, " + firstName + " " + lastName,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold),
+                );
             },
           );
         },
