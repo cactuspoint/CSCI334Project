@@ -1,9 +1,7 @@
+import 'package:client/utils/constants/app_globals.dart' as globals;
 import 'package:flutter/material.dart';
-import 'package:client/screens/dashboard.dart';
 import 'package:client/utils/helpers/database-helper.dart';
 import 'package:client/widgets/qrcode-scan.dart';
-import 'dart:io';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class VisitsPage extends StatefulWidget {
   @override
@@ -11,38 +9,53 @@ class VisitsPage extends StatefulWidget {
 }
 
 class _VisitsPageState extends State<VisitsPage> {
-  String currentLocation = "";
+  bool exposed = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: AppBar(title: Text('Alerts'),),
-        body: Center(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-          Text('1. Select method to get location:'),
-          ElevatedButton(
-            child: Text('use QR code'),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => QRcodeScanWidget()),
-              );
-            },
-          ),
-          ElevatedButton(
-            child: Text('use Device Location'),
-            onPressed: () {},
-          ),
-          Text('2. Press Confirm to log the visit:'),
-          ElevatedButton(
-            child: Text('Confirm'),
-            onPressed: () {
-              DatabaseHelper.insertVisit(
-                  new Visit(DateTime.now().toIso8601String(), currentLocation));
-            },
-          ),
-        ])));
+        body: Padding(
+      padding: const EdgeInsets.only(top: 50),
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text('Choose a method to set your location:'),
+            ElevatedButton(
+              child: Text('use QR code'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => QRcodeScanWidget()),
+                );
+              },
+            ),
+            ElevatedButton(
+              child: Text('use Device Location'),
+              onPressed: () {},
+            ),
+            Text('\nPress -Log Visit- to log your visit:'),
+            ElevatedButton(
+              child: Text('Log Visit'),
+              onPressed: () {
+                DatabaseHelper.insertVisit(Visit(
+                    DateTime.now().toIso8601String(), globals.currentLocation));
+              },
+            ),
+            Text('\nPress -Exposed?- to check if you have been exposed:'),
+            ElevatedButton(
+              child: Text('Exposed?'),
+              onPressed: () {
+                checkExposed();
+              },
+            ),
+            Text('Exposure status: ${exposed.toString()}'),
+          ]),
+    ));
+  }
+
+  checkExposed() async {
+    exposed = await DatabaseHelper.exposed();
+    setState(() {});
   }
 }

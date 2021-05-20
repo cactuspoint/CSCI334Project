@@ -5,7 +5,8 @@ import 'package:qr_flutter/qr_flutter.dart';
 /// A widget that displays a QRcode of a given String at a given size.
 ///
 /// ```dart
-/// QRcode('hello', 200) // example code for widget
+/// QRcodeDisplay(String stringToEncode, double size)
+/// QRcodeDisplay('Hello World', 200) // Create instance of widget
 /// ```
 class QRcodeDisplay extends StatelessWidget {
   const QRcodeDisplay(this.data, this.size);
