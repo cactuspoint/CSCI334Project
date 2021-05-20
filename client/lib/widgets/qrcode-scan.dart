@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:client/screens/dashboard.dart';
 import 'dart:io';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -42,27 +41,11 @@ class _QRcodeScanWidgetState extends State<QRcodeScanWidget> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   ElevatedButton(
-                    child: Text('Cancel'),
-                    onPressed: () {
-                      dispose();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DashboardPage()),
-                      );
-                    },
-                  ),
-                  ElevatedButton(
-                    child: Text('Proceed'),
-                    onPressed: () {
-                      dispose();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DashboardPage()),
-                      );
-                    },
-                  ),
+                      child: Text('back'),
+                      onPressed: () {
+                        dispose();
+                        Navigator.pop(context);
+                      }),
                 ],
               ),
             ],
