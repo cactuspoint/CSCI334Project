@@ -53,176 +53,175 @@ class _SignUpState extends State<SignUpPage> {
 
     return Scaffold(
       // resizeToAvoidBottomInset: false,
-      body: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Flexible(
-              flex: 2,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 40.0),
-                // padding: EdgeInsets.only(left: 8),
-                // child: Text('Log in'),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'Create an account',
-                      style: TextStyle(fontSize: 32),
+      body: SingleChildScrollView(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 40.0),
+                  // padding: EdgeInsets.only(left: 8),
+                  // child: Text('Log in'),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Create an account',
+                        style: TextStyle(fontSize: 32),
+                      ),
+                    ],
+                  ),
+                ),
+
+
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  // alignment: Alignment.center,
+                  child: TextField(
+                    keyboardType: TextInputType.phone,
+                    controller: phoneController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Mobile number',
                     ),
-                  ],
-                ),
-              ),
-            ),
-            Flexible(
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                // alignment: Alignment.center,
-                child: TextField(
-                  keyboardType: TextInputType.phone,
-                  controller: phoneController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Mobile number',
                   ),
                 ),
-              ),
-            ),
-            Flexible(
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                // alignment: Alignment.center,
-                child: TextField(
-                  keyboardType: TextInputType.visiblePassword,
-                  controller: passController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
-                  ),
-                ),
-              ),
-            ),
-            Flexible(
-              child: Container(
-                // padding: EdgeInsets.fromLTRB(16, 4, 16, 16),
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                // alignment: Alignment.center,
-                child: TextField(
-                  keyboardType: TextInputType.visiblePassword,
-                  controller: passControllerBk,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Confirm Password',
-                  ),
-                ),
-              ),
-            ),
-            Flexible(
-              child: Container(
-                // padding: EdgeInsets.fromLTRB(16, 4, 16, 16),
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                // alignment: Alignment.center,
-                child: TextField(
-                  controller: fNController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'First Name',
-                  ),
-                ),
-              ),
-            ),
-            Flexible(
-              child: Container(
-                // padding: EdgeInsets.fromLTRB(16, 4, 16, 16),
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                // alignment: Alignment.center,
-                child: TextField(
-                  controller: lNController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Last Name',
-                  ),
-                ),
-              ),
-            ),
-            Spacer(),
-            Flexible(
-              child: Container(
-                // padding: EdgeInsets.fromLTRB(16, 20, 16, 4),
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      // backgroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(vertical: 16.0),
+
+
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  // alignment: Alignment.center,
+                  child: TextField(
+                    keyboardType: TextInputType.visiblePassword,
+                    controller: passController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Password',
                     ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text(
-                      'CANCEL',
-                      style: TextStyle(
-                        fontSize: 16,
-                        // color: Colors.white,
+                  ),
+                ),
+
+
+                Container(
+                  // padding: EdgeInsets.fromLTRB(16, 4, 16, 16),
+                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  // alignment: Alignment.center,
+                  child: TextField(
+                    keyboardType: TextInputType.visiblePassword,
+                    controller: passControllerBk,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Confirm Password',
+                    ),
+                  ),
+                ),
+
+
+                Container(
+                  // padding: EdgeInsets.fromLTRB(16, 4, 16, 16),
+                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  // alignment: Alignment.center,
+                  child: TextField(
+                    controller: fNController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'First Name',
+                    ),
+                  ),
+                ),
+
+
+                Container(
+                  // padding: EdgeInsets.fromLTRB(16, 4, 16, 16),
+                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  // alignment: Alignment.center,
+                  child: TextField(
+                    controller: lNController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Last Name',
+                    ),
+                  ),
+                ),
+
+                
+                Container(
+                  // padding: EdgeInsets.fromLTRB(16, 20, 16, 4),
+                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        // backgroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        'CANCEL',
+                        style: TextStyle(
+                          fontSize: 16,
+                          // color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            Flexible(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(16, 0, 16, 32),
-                // padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-                child: SizedBox(
-                  // width: double.infinity,
-                  child: Mutation(
-                      options: MutationOptions(
-                        document: gql(signup),
-                        update: update,
-                        // onError: (OperationException error) =>
-                        //     _simpleAlert(context, error.toString()),
-                      ),
-                      builder: (RunMutation _authenticate, QueryResult result) {
-                        return SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(vertical: 16.0),
+
+
+                Container(
+                  padding: EdgeInsets.fromLTRB(16, 0, 16, 32),
+                  // padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                  child: SizedBox(
+                    // width: double.infinity,
+                    child: Mutation(
+                        options: MutationOptions(
+                          document: gql(signup),
+                          update: update,
+                          // onError: (OperationException error) =>
+                          //     _simpleAlert(context, error.toString()),
+                        ),
+                        builder: (RunMutation _authenticate, QueryResult result) {
+                          return SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.symmetric(vertical: 16.0),
+                              ),
+                              onPressed: () {
+                                if (passController.text == passControllerBk.text) {
+                                  _authenticate({
+                                    'phoneNum': phoneController.text,
+                                    'password': passController.text,
+                                    'firstName': fNController.text,
+                                    'lastName': lNController.text,
+                                  });
+                                } else {
+                                  passController.text = "";
+                                  passControllerBk.text = "";
+                                  _simpleAlert(context, "Passwords don't match");
+                                }
+                              },
+                              child: Text(
+                                'SIGNUP',
+                                style: TextStyle(fontSize: 16),
+                              ),
                             ),
-                            onPressed: () {
-                              if (passController.text == passControllerBk.text) {
-                                _authenticate({
-                                  'phoneNum': phoneController.text,
-                                  'password': passController.text,
-                                  'firstName': fNController.text,
-                                  'lastName': lNController.text,
-                                });
-                              } else {
-                                passController.text = "";
-                                passControllerBk.text = "";
-                                _simpleAlert(context, "Passwords don't match");
-                              }
-                            },
-                            child: Text(
-                              'SIGNUP',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          ),
-                        );
-                      }),
+                          );
+                        }),
+                  ),
                 ),
-              ),
-            ),
-            
-            
-            
-            
-            
-            
-          ],
-        ),
+
+              
+              
+              
+              
+              
+              
+            ],
+          ),
+      ),
 
     );
   }
