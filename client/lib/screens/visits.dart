@@ -12,33 +12,35 @@ class _VisitsPageState extends State<VisitsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: AppBar(title: Text('Alerts'),),
-        body: Center(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-          Text('1. Select method to get location:'),
-          ElevatedButton(
-            child: Text('use QR code'),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => QRcodeScanWidget()),
-              );
-            },
-          ),
-          ElevatedButton(
-            child: Text('use Device Location'),
-            onPressed: () {},
-          ),
-          Text('2. Press Confirm to log the visit:'),
-          ElevatedButton(
-            child: Text('Confirm'),
-            onPressed: () {
-              DatabaseHelper.insertVisit(new Visit(
-                  DateTime.now().toIso8601String(), globals.currentLocation));
-            },
-          ),
-        ])));
+        body: Padding(
+      padding: const EdgeInsets.only(top: 50),
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text('Choose a method to set your location:'),
+            ElevatedButton(
+              child: Text('use QR code'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => QRcodeScanWidget()),
+                );
+              },
+            ),
+            ElevatedButton(
+              child: Text('use Device Location'),
+              onPressed: () {},
+            ),
+            Text('\nPress Log Visit to log your visit:'),
+            ElevatedButton(
+              child: Text('Log Visit'),
+              onPressed: () {
+                DatabaseHelper.insertVisit(new Visit(
+                    DateTime.now().toIso8601String(), globals.currentLocation));
+              },
+            ),
+          ]),
+    ));
   }
 }
