@@ -214,7 +214,7 @@ class _SignUpState extends State<SignUpPage> {
                                     }
                                   },
                                   child: Text(
-                                    'SIGNUP',
+                                    'SIGN UP',
                                     style: TextStyle(fontSize: 16),
                                   ),
                                 ),
