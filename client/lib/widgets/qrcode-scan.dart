@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'dart:io';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 /// A widget to scan a QRcode with the camera.
@@ -19,38 +18,27 @@ class _QRcodeScanWidgetState extends State<QRcodeScanWidget> {
     return Scaffold(
       body: Column(
         children: <Widget>[
+          Expanded(flex: 1, child: _buildQRViewfinder(context)),
           Expanded(flex: 1, child: _buildQRControls(context)),
-          Expanded(flex: 2, child: _buildQRViewfinder(context)),
         ],
       ),
     );
   }
 
   Widget _buildQRControls(BuildContext context) {
-    return FittedBox(
-        fit: BoxFit.contain,
-        child: Padding(
-          padding: EdgeInsets.all(30.0),
-          child: Column(
-            children: <Widget>[
-              Text('Scan a QR code to log a visit'),
-              if (result != null) Text('location=${result.code}'),
-              if (result == null) Text('location=NULL'),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  ElevatedButton(
-                      child: Text('back'),
-                      onPressed: () {
-                        dispose();
-                        Navigator.pop(context);
-                      }),
-                ],
-              ),
-            ],
-          ),
-        ));
+    return Column(
+      children: <Widget>[
+        Text('Scan a QR code to log a visit'),
+        if (result == null) Text('Location is unchanged.'),
+        if (result != null) Text('location was set to: ${result.code}'),
+        ElevatedButton(
+            child: Text('back'),
+            onPressed: () {
+              dispose();
+              Navigator.pop(context);
+            }),
+      ],
+    );
   }
 
   Widget _buildQRViewfinder(BuildContext context) {
@@ -79,15 +67,6 @@ class _QRcodeScanWidgetState extends State<QRcodeScanWidget> {
         result = scanData;
       });
     });
-  }
-
-  @override
-  void reassemble() {
-    super.reassemble();
-    if (Platform.isAndroid) {
-      controller.pauseCamera();
-    }
-    controller.resumeCamera();
   }
 
   @override
