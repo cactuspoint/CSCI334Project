@@ -1,6 +1,7 @@
 import graphene
 import uuid
 import os
+import time
 from graphql import GraphQLError
 from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
 from sqlalchemy import and_
@@ -98,11 +99,14 @@ class Query(graphene.ObjectType):
             return query.uuid
         else:
             raise GraphQLError('error: no user by that phoneNum')
-    infectionLog = graphene.List(graphene.String, backLog=graphene.String())
+    infectionLog = graphene.List(graphene.String, backLog=graphene.Int())
     def resolve_infectionLog(self, info, backLog):
         paths = sorted(pathlib.Path(os.path.join(UPLOAD_DIR, 'logs')).iterdir(), key=os.path.getmtime)
         log_paths = []
+        backLog_epoch = time.time()-((24*60*60)*backLog)
         for path in paths:
+            if path.stat().st_mtime < backLog_epoch:
+                break
             log_paths.append(f'{request.url_root}dowload/log/{path.name}')
         return log_paths
 
