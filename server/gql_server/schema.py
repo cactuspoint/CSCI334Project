@@ -107,7 +107,7 @@ class Query(graphene.ObjectType):
         for path in paths:
             if path.stat().st_mtime < backLog_epoch:
                 break
-            log_paths.append(f'{request.url_root}dowload/log/{path.name}')
+            log_paths.append(f'{request.url_root}download/logs/{path.name}')
         return log_paths
 
 
