@@ -1,3 +1,4 @@
+import 'package:client/utils/constants/app_globals.dart' as globals;
 import 'package:flutter/material.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 
@@ -20,6 +21,9 @@ class NotificationHelper {
         AwesomeNotifications().requestPermissionToSendNotifications();
       }
     });
+    if (globals.alerts != null) {
+      unreadAlertNotification();
+    }
   }
 
   static Future<void> openListeningStream() {
