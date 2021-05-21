@@ -20,19 +20,15 @@ class _VisitsPageState extends State<VisitsPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('Choose a method to set your location:'),
+            Text('Set the location of the visit to be logged:'),
             ElevatedButton(
-              child: Text('use QR code'),
+              child: Text('scan QR code'),
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => QRcodeScanWidget()),
                 );
               },
-            ),
-            ElevatedButton(
-              child: Text('use Device Location'),
-              onPressed: () {},
             ),
             Text('\nPress -Log Visit- to log your visit:'),
             ElevatedButton(
