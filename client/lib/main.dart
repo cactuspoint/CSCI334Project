@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:client/utils/helpers/alerts-helper.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show TargetPlatform;
 
@@ -10,6 +11,7 @@ import 'package:client/utils/constants/app_globals.dart' as globals;
 import 'package:client/utils/helpers/notification-helper.dart';
 
 void main() {
+  AlertsHelper.setup();
   NotificationHelper.setup();
   runApp(GraphqlApp());
 }
@@ -55,7 +57,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     NotificationHelper.openListeningStream();
-    NotificationHelper.unreadAlertNotification();
   }
 
   @override
