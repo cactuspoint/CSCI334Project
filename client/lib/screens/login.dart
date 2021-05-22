@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
 
             Container(
-              padding: EdgeInsets.fromLTRB(0, 96.0, 0, 16.0),
+              padding: EdgeInsets.fromLTRB(0, 96.0, 0, 8.0),
                   child: SizedBox(
                     width: double.infinity,
                     child: TextButton(

@@ -63,7 +63,7 @@ class _SignUpState extends State<SignUpPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                     Container(
-                      padding: EdgeInsets.fromLTRB(0, 40.0, 0, 80.0),
+                      padding: EdgeInsets.fromLTRB(0, 40.0, 0, 40.0),
                       // padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 40.0),
                       // padding: EdgeInsets.only(left: 8),
                       // child: Text('Log in'),
@@ -155,9 +155,7 @@ class _SignUpState extends State<SignUpPage> {
                     ),
 
                     Container(
-                      padding: EdgeInsets.only(top: 40.0),
-                      // padding: EdgeInsets.fromLTRB(16, 20, 16, 4),
-                      // padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      padding: EdgeInsets.fromLTRB(0, 48.0, 0, 8.0),
                       child: SizedBox(
                         width: double.infinity,
                         child: TextButton(
