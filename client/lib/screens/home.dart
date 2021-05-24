@@ -21,41 +21,102 @@ class _HomePageState extends State<HomePage> {
     }
     ''';
     return Scaffold(
-      body: Center(
-          child: Query(
-        options: QueryOptions(
-          document: gql(getPerson), // this is the query string you just created
-          variables: {'uuid': "", 'jwt': globals.jwt},
-          pollInterval: Duration(seconds: 10),
-        ),
-        builder: (QueryResult result,
-            {VoidCallback refetch, FetchMore fetchMore}) {
-          if (result.hasException) {
-            return Text(result.exception.toString());
-          }
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Flexible(
+                flex: 1,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 24.0),
+                  child: Container(
+                    width: double.infinity,
+                    alignment: Alignment.centerLeft,
+                    child: Query(
+                      options: QueryOptions(
+                      document: gql(getPerson), // this is the query string you just created
+                      variables: {'uuid': "", 'jwt': globals.jwt},
+                      pollInterval: Duration(seconds: 10),
+                    ),
+                    builder: (QueryResult result,
+                        {VoidCallback refetch, FetchMore fetchMore}) {
+                      if (result.hasException) {
+                        return Text(result.exception.toString());
+                      }
 
-          if (result.isLoading) {
-            return Text('Loading');
-          }
+                      if (result.isLoading) {
+                        return Text('Loading');
+                      }
 
-          String firstName = result.data['person']['firstName'];
-          String lastName = result.data['person']['lastName'];
+                      String firstName = result.data['person']['firstName'];
+                      String lastName = result.data['person']['lastName'];
 
-          return ListView.builder(
-            itemCount: 1,
-            itemBuilder: (context, index) {
-              // final repository = repositories[index];
+                      return Text("Hello, \n" + firstName + " " + lastName,
+                        style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w400),
+                      );
 
-              return Text(
-                "Hello, " + firstName + " " + lastName,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold),
-                );
-            },
-          );
-        },
-      )),
+                      // return ListView.builder(
+                      //   itemCount: 1,
+                      //   itemBuilder: (context, index) {
+                      //     // final repository = repositories[index];
+
+                      //     return Text(
+                      //       "Hello, \n" + firstName + " " + lastName,
+                      //         style: TextStyle(
+                      //           fontSize: 32,
+                      //           fontWeight: FontWeight.w400),
+                      //       );
+                      //   },
+                      // );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+              Flexible(
+                flex: 2,
+                child: Container(
+                  width: double.infinity,
+                  alignment: Alignment.topCenter,
+                  child: GestureDetector(
+                    onTap: () {
+                      // tapping the icon will open an ImagePicker
+                    },
+                    child: Material(
+                      elevation: 4.0,
+                      shape: CircleBorder(),
+                      color: Colors.blueGrey,
+                      clipBehavior: Clip.antiAlias,
+                      child: Icon(
+                        Icons.account_circle,
+                        size: 180.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              // Flexible widget for the vaccination status
+
+              // Flexible(
+              //   flex: 3,
+              //   child: Container(
+              //     width: double.infinity,
+              //     alignment: Alignment.topLeft,
+              //     child: Text('Vaccination status',
+              //       style: TextStyle(
+              //       fontSize: 26,
+              //       fontWeight: FontWeight.w400),
+              //     ),
+              //   ),
+              // ),
+            ],
+          ),
+          )),
     );
   }
 }
