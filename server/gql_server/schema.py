@@ -22,10 +22,10 @@ class Person(SQLAlchemyObjectType):
     pfp = graphene.String()
     @staticmethod
     def resolve_pfp(root, info, **kwargs):
-        print(info)
-        print(info.context)
-        print(info.context.user.uuid)
-        return 'Hello, World!'
+        if pathlib.Path(os.path.join(os.path.join(UPLOAD_DIR, "images"), root.uuid + ".png")).is_file():
+            return f"{request.url_root}download/images/{root.uuid}.png"
+        else:
+            return ""
 
 
 # Mutations
@@ -115,7 +115,7 @@ class Query(graphene.ObjectType):
         query = Person.get_query(info)
         uuid = auth_uuid if uuid == "" else uuid
         if uuid == "":
-            raise GraphQLError("error: uuid OR jwt can be blank, not both")
+            raise GraphQLError("error: uuid OR jwt can be blank, not both")        
         return query.get(uuid)
 
     uuid = graphene.String(phoneNum=graphene.String())
