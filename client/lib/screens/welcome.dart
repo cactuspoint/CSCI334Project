@@ -13,14 +13,57 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SignUpButton(),
-              LogInButton(),
-            ]),
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Column(
+                    children: [
+                      AppIcon(),
+                      AppName(),
+                      SignUpButton(),
+                      LogInButton(),
+                    ],
+                  ),
+                ]),
+          ),
+        ),
         floatingActionButton: BypassLoginButton());
+  }
+}
+
+class AppIcon extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      elevation: 4.0,
+      shape: CircleBorder(),
+      color: Colors.blueGrey,
+      clipBehavior: Clip.antiAlias,
+      child: Icon(
+        Icons.coronavirus,
+        size: 180.0,
+        color: Colors.white,
+      ),
+    );
+  }
+}
+
+class AppName extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 20.0, 0, 280.0),
+      child: Text('COVID Alert',
+        style: TextStyle(
+        fontSize: 32,
+        color: Colors.blueGrey,
+        fontWeight: FontWeight.w600),
+        ),
+    );
   }
 }
 
@@ -28,7 +71,7 @@ class LogInButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.fromLTRB(16, 4, 16, 24),
+        padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
         child: SizedBox(
             width: double.infinity,
             child: ElevatedButton(
@@ -46,7 +89,7 @@ class SignUpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.fromLTRB(16, 4, 16, 4),
+        padding: EdgeInsets.fromLTRB(0, 4, 0, 4),
         child: SizedBox(
             width: double.infinity,
             child: TextButton(
