@@ -45,8 +45,8 @@ class VaccinateMutation(graphene.Mutation):
     class Arguments(object):
         uuid = graphene.String()
         vaccineName = graphene.String(default_value="")
-        vaccineInj = graphene.Int(default_value=-1)
-        vaccineRecInj = graphene.Int(default_value=-1)
+        vaccineInj = graphene.Int(default_value=0)
+        vaccineRecInj = graphene.Int(default_value=0)
     
     updated = graphene.Boolean()
 
@@ -61,9 +61,9 @@ class VaccinateMutation(graphene.Mutation):
             if vaccineName != "":
                 query.vaccine_name = vaccineName
                 query.vaccine_date = int(time.time())
-            if vaccineInj != -1:
+            if vaccineInj != 0:
                 query.vaccine_inj = vaccineInj
-            if vaccineRecInj != -1:
+            if vaccineRecInj != 0:
                 query.vaccine_rec_inj = vaccineRecInj
             db_session.commit()
             return VaccinateMutation(
