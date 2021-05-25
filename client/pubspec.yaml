@@ -15,6 +15,7 @@ dependencies:
   sqflite: # interact with a SQLite database
   awesome_notifications: any # generate a local notification
   google_fonts: any # use a google font as a text style
+  covid19: ^0.1.0 # api for covid19 statistics https://api.covid19api.com
 dev_dependencies:
   flutter_test:
     sdk: flutter
