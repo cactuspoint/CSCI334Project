@@ -16,9 +16,9 @@ class StatisticsHelper {
     String auTotalConfirmed =
         auTotalConfirmed_[auTotalConfirmed_.length - 1].cases.toString();
     String auTotalRecovered =
-        auTotalConfirmed_[auTotalConfirmed_.length - 1].cases.toString();
+        auTotalRecovered_[auTotalRecovered_.length - 1].cases.toString();
     String auTotalDeaths =
-        auTotalConfirmed_[auTotalConfirmed_.length - 1].cases.toString();
+        auTotalDeaths_[auTotalDeaths_.length - 1].cases.toString();
     String globalNewConfirmed = summary.global.newConfirmed.toString();
     String globalNewRecovered = summary.global.newRecovered.toString();
     String globalNewDeaths = summary.global.newDeaths.toString();
