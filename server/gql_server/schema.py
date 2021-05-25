@@ -41,6 +41,36 @@ class Person(SQLAlchemyObjectType):
 
 # Mutations
 
+class VaccinateMutation(graphene.Mutation):
+    class Arguments(object):
+        uuid = graphene.String()
+        vaccineName = graphene.String(default_value="")
+        vaccineInj = graphene.Int(default_value=-1)
+        vaccineRecInj = graphene.Int(default_value=-1)
+    
+    updated = graphene.Boolean()
+
+    @classmethod
+    def mutate(cls, _, info, uuid, vaccineName, vaccineInj, vaccineRecInj):
+        query = (
+            db_session.query(PersonModel)
+            .filter(PersonModel.uuid == uuid)
+            .first()
+        )
+        if query:
+            if vaccineName != "":
+                query.vaccine_name = vaccineName
+                query.vaccine_date = int(time.time())
+            if vaccineInj != -1:
+                query.vaccine_inj = vaccineInj
+            if vaccineRecInj != -1:
+                query.vaccine_rec_inj = vaccineRecInj
+            db_session.commit()
+            return VaccinateMutation(
+                updated = True
+            )
+        else:
+            raise GraphQLError("error: no user with that uuid")
 
 class SignUpMutation(graphene.Mutation):
     class Arguments(object):
@@ -104,6 +134,7 @@ class AuthMutation(graphene.Mutation):
 class Mutation(graphene.ObjectType):
     auth = AuthMutation.Field()
     signUp = SignUpMutation.Field()
+    vaccinate = VaccinateMutation.Field()
 
 
 # Queries
