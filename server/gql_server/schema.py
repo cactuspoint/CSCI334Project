@@ -11,6 +11,17 @@ from .middleware import encrypt_jwt, decrypt_jwt
 from .models import db_session, Person as PersonModel
 from . import UPLOAD_DIR
 
+# Custom functions
+
+def get_access(uuid):
+    query = (
+            db_session.query(PersonModel)
+            .filter(PersonModel.uuid == uuid)
+            .first()
+        )
+    if query:
+        return query.access
+
 # Setup Models
 
 
@@ -25,7 +36,7 @@ class Person(SQLAlchemyObjectType):
         if pathlib.Path(os.path.join(os.path.join(UPLOAD_DIR, "images"), root.uuid + ".png")).is_file():
             return f"{request.url_root}download/images/{root.uuid}.png"
         else:
-            return ""
+            return f"{request.url_root}download/images/default.png"
 
 
 # Mutations
