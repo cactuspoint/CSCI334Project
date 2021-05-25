@@ -28,7 +28,7 @@ def get_access(uuid):
 class Person(SQLAlchemyObjectType):
     class Meta:
         model = PersonModel
-        exclude = ("password",)
+        exclude_fields = ("password",)
         interfaces = (graphene.relay.Node,)
     pfp = graphene.String()
     @staticmethod
