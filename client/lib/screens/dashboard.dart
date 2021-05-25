@@ -4,6 +4,7 @@ import 'package:client/screens/alerts.dart';
 import 'package:client/screens/documents.dart';
 import 'package:client/screens/reports.dart';
 import 'package:flutter/material.dart';
+import 'package:client/screens/vaccine.dart';
 
 class DashboardPage extends StatefulWidget {
   @override
@@ -19,6 +20,7 @@ class _DashboardPageState extends State<DashboardPage> {
     DocumentsPage(),
     VisitsPage(),
     AlertsPage(),
+    VaccinePage(),
   ];
 
   void _onPageChanged(int index) {

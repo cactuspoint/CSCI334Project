@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:client/screens/vaccine.dart';
 import '../utils/constants/app_globals.dart' as globals;
 
 class HomePage extends StatefulWidget {
@@ -19,6 +20,7 @@ class _HomePageState extends State<HomePage> {
         lastName,
         pfp,
         vaccineName,
+        access,
       }
     }
     ''';
@@ -45,11 +47,11 @@ class _HomePageState extends State<HomePage> {
           String firstName = person['firstName'];
           String lastName = person['lastName'];
           String pfp = person['pfp'];
-          Color vaccine =
-              (person['vaccineName'] == "" || person['vaccineName'] == null)
-                  ? Colors.red
-                  : Colors.green;
+          bool vaccinated =
+              !(person['vaccineName'] == "" || person['vaccineName'] == null);
+
           String vaccine_button = "Not vaccinated";
+          int access = person['access'] != null ? person['access'] : 0;
           print(person);
           return Align(
               alignment: Alignment.topLeft,
@@ -78,16 +80,26 @@ class _HomePageState extends State<HomePage> {
                           SizedBox(height: 30),
                           ElevatedButton(
                             style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(vaccine)),
+                                backgroundColor: MaterialStateProperty.all(
+                                    vaccinated ? Colors.green : Colors.red)),
                             child: Container(
                                 width: double.infinity,
                                 padding: EdgeInsets.all(16.0),
                                 child: Text(
-                                  vaccine_button,
+                                  vaccinated
+                                      ? "Vaccinated with " +
+                                          person['vaccineName']
+                                      : "Not Vaccinated",
                                   textAlign: TextAlign.left,
                                 )),
-                            onPressed: () {},
+                            onPressed: () {
+                              if (vaccinated || access >= 3) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => VaccinePage()));
+                              }
+                            },
                           ),
                         ],
                       ))));
