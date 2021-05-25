@@ -16,17 +16,16 @@ from . import UPLOAD_DIR
 
 class Person(SQLAlchemyObjectType):
     class Meta:
-        model = PersonModel,
+        model = PersonModel
         exclude = ("password",)
         interfaces = (graphene.relay.Node,)
     pfp = graphene.String()
-    # @staticmethod
-    # def resolve_pfp(root, info, **kwargs):
-    #     if Path(os.path.join(os.path.join(UPLOAD_DIR, "logs"), )).is_file():
-    #         print ("File exist")
-    #     else:
-    #         print ("File not exist")
-    #     return 'Hello, World!'
+    @staticmethod
+    def resolve_pfp(root, info, **kwargs):
+        print(info)
+        print(info.context)
+        print(info.context.user.uuid)
+        return 'Hello, World!'
 
 
 # Mutations
@@ -117,7 +116,7 @@ class Query(graphene.ObjectType):
         uuid = auth_uuid if uuid == "" else uuid
         if uuid == "":
             raise GraphQLError("error: uuid OR jwt can be blank, not both")
-        query.get(uuid)
+        return query.get(uuid)
 
     uuid = graphene.String(phoneNum=graphene.String())
 
