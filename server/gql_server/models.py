@@ -19,3 +19,4 @@ class Person(Base):
     vaccine_name = sqa.Column(sqa.String)
     vaccine_inj = sqa.Column(sqa.Integer)
     vaccine_rec_inj = sqa.Column(sqa.Integer)
+    vaccine_date = sqa.Column(sqa.Integer)
