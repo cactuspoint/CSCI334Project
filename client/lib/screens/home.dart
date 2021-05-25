@@ -17,7 +17,8 @@ class _HomePageState extends State<HomePage> {
         phoneNum,
         firstName, 
         lastName,
-        pfp
+        pfp,
+        vaccineName,
       }
     }
     ''';
@@ -40,29 +41,56 @@ class _HomePageState extends State<HomePage> {
           if (result.isLoading) {
             return Text('Loading');
           }
-
-          String firstName = result.data['person']['firstName'];
-          String lastName = result.data['person']['lastName'];
-          String pfp = result.data['person']['pfp'];
+          var person = result.data['person'];
+          String firstName = person['firstName'];
+          String lastName = person['lastName'];
+          String pfp = person['pfp'];
+          Color vaccine =
+              (person['vaccineName'] == "" || person['vaccineName'] == null)
+                  ? Colors.red
+                  : Colors.green;
+          String vaccine_button = "Not vaccinated";
+          print(person);
           return Align(
-              alignment: Alignment
-                  .topCenter, // This will horizontally center from the top
-              child: new Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(height: 30),
-                  new Container(
-                      width: MediaQuery.of(context).size.width * 0.6,
-                      height: MediaQuery.of(context).size.width * 0.6,
-                      decoration: new BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: new DecorationImage(
-                              fit: BoxFit.fill, image: new NetworkImage(pfp)))),
-                  SizedBox(height: 30),
-                  new Text(firstName + " " + lastName, textScaleFactor: 1.5)
-                ],
-              ));
+              alignment: Alignment.topLeft,
+              child: new Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: new Container(
+                      constraints: BoxConstraints(maxWidth: 300),
+                      child: new Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(height: 30),
+                          new Align(
+                              alignment: Alignment.topCenter,
+                              child: new Container(
+                                  width: 250,
+                                  height: 250,
+                                  decoration: new BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
+                                          fit: BoxFit.fitWidth,
+                                          image: new NetworkImage(pfp))))),
+                          SizedBox(height: 30),
+                          new Text(" " + firstName + " " + lastName,
+                              textScaleFactor: 1.5),
+                          SizedBox(height: 30),
+                          ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(vaccine)),
+                            child: Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.all(16.0),
+                                child: Text(
+                                  vaccine_button,
+                                  textAlign: TextAlign.left,
+                                )),
+                            onPressed: () {},
+                          ),
+                        ],
+                      ))));
         },
       ),
     )));
