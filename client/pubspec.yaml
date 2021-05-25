@@ -14,6 +14,7 @@ dependencies:
   qr_code_scanner: # decode string of QR code
   sqflite: # interact with a SQLite database
   awesome_notifications: any # generate a local notification
+  google_fonts: any # use a google font as a text style
 dev_dependencies:
   flutter_test:
     sdk: flutter
