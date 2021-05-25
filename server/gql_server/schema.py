@@ -17,6 +17,7 @@ from . import UPLOAD_DIR
 class Person(SQLAlchemyObjectType):
     class Meta:
         model = PersonModel
+        exclude = ('password',)
         interfaces = (graphene.relay.Node, )
 
 # Mutations
