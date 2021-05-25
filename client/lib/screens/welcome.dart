@@ -3,6 +3,7 @@ import 'package:client/screens/login.dart';
 import 'package:client/screens/signup.dart';
 import 'package:client/screens/dashboard.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class WelcomePage extends StatefulWidget {
   @override
@@ -57,12 +58,11 @@ class AppName extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.fromLTRB(0, 20.0, 0, 280.0),
-      child: Text('COVID Alert',
-        style: TextStyle(
-        fontSize: 32,
-        color: Colors.blueGrey,
-        fontWeight: FontWeight.w600),
-        ),
+      child: Text('crossreferenc',
+          style: GoogleFonts.odibeeSans(
+              fontSize: 50,
+              color: Colors.blueGrey,
+              fontWeight: FontWeight.w600)),
     );
   }
 }
