@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from gql_server.app import create_server
 
 app = create_server(True)
