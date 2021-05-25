@@ -16,9 +16,17 @@ from . import UPLOAD_DIR
 
 class Person(SQLAlchemyObjectType):
     class Meta:
-        model = PersonModel
+        model = PersonModel,
         exclude = ("password",)
         interfaces = (graphene.relay.Node,)
+    pfp = graphene.String()
+    # @staticmethod
+    # def resolve_pfp(root, info, **kwargs):
+    #     if Path(os.path.join(os.path.join(UPLOAD_DIR, "logs"), )).is_file():
+    #         print ("File exist")
+    #     else:
+    #         print ("File not exist")
+    #     return 'Hello, World!'
 
 
 # Mutations
@@ -47,6 +55,7 @@ class SignUpMutation(graphene.Mutation):
                 password=password,
                 first_name=firstName,
                 last_name=lastName,
+                access=0,
             )
             db_session.add(user)
             db_session.commit()
@@ -105,10 +114,10 @@ class Query(graphene.ObjectType):
         print("user logged in is : {}".format(auth_uuid))
         # As of here the auth_uuid = the uuid of the user logged in
         query = Person.get_query(info)
-        if auth_uuid != "" and uuid == "":
-            return query.get(auth_uuid)
-        else:
-            return query.get(uuid)
+        uuid = auth_uuid if uuid == "" else uuid
+        if uuid == "":
+            raise GraphQLError("error: uuid OR jwt can be blank, not both")
+        query.get(uuid)
 
     uuid = graphene.String(phoneNum=graphene.String())
 
