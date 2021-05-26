@@ -15,24 +15,23 @@ class _WelcomePageState extends State<WelcomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Column(
-                    children: [
-                      AppIcon(),
-                      AppName(),
-                      SignUpButton(),
-                      LogInButton(),
-                    ],
-                  ),
-                ]),
-          ),
-        ),
-        floatingActionButton: BypassLoginButton());
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Column(
+                children: [
+                  AppIcon(),
+                  AppName(),
+                  SignUpButton(),
+                  LogInButton(),
+                ],
+              ),
+            ]),
+      ),
+    ));
   }
 }
 
@@ -100,18 +99,5 @@ class SignUpButton extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => SignUpPage()));
                 },
                 child: Text('SIGN UP', style: TextStyle(fontSize: 16)))));
-  }
-}
-
-class BypassLoginButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton(
-        onPressed: () => {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => DashboardPage()))
-            },
-        tooltip: "Bypass Login",
-        child: Icon(Icons.login));
   }
 }
