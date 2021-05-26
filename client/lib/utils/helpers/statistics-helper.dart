@@ -1,17 +1,18 @@
 import 'package:covid19/covid19.dart';
 
-/// A helper class to manage provising covid statisitics
+/// A helper class to manage providing covid statisitics
 class StatisticsHelper {
   static Future<String> getStatistics() async {
     var covid19Client = Covid19Client();
     var summary = await covid19Client.getSummary();
+    var live = await covid19Client.getLive(country: 'Australia');
     var auTotalConfirmed_ = await covid19Client.getDayOneTotal(
         country: 'Australia', status: 'confirmed');
     var auTotalRecovered_ = await covid19Client.getDayOneTotal(
         country: 'Australia', status: 'recovered');
     var auTotalDeaths_ = await covid19Client.getDayOneTotal(
         country: 'Australia', status: 'deaths');
-    var live = await covid19Client.getLive(country: 'Australia');
+
     String auActiveCases = live[live.length - 1].active.toString();
     String auTotalConfirmed =
         auTotalConfirmed_[auTotalConfirmed_.length - 1].cases.toString();
