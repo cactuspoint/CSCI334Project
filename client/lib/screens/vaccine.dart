@@ -41,42 +41,63 @@ class _VaccinePageState extends State<VaccinePage> {
                       person['vaccineName'] == null);
                   var date = new DateTime.fromMillisecondsSinceEpoch(
                       person['vaccineDate'] * 1000);
-                  return Column(
-                    children: [
-                      TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text("<< back")),
-                      if (vacinated)
-                        Text("Vaccinated with " + person['vaccineName']),
-                      if (vacinated)
-                        Text(
-                            "vaccines recieved " +
-                                person['vaccineInj'].toString() +
-                                "/" +
-                                person['vaccineRecInj'].toString(),
-                            textScaleFactor: 1.5),
-                      if (vacinated)
-                        Text(
-                            "vaccinated on " +
-                                date.year.toString() +
-                                "/" +
-                                date.month.toString() +
-                                "/" +
-                                date.day.toString(),
-                            textScaleFactor: 1.5),
-                      if (access >= 3)
-                        ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          VaccineEditPage(uuid: widget.uuid)));
-                            },
-                            child: Text("Edit")),
-                    ],
+                  return Scaffold(
+                    appBar: AppBar(
+                      title: const Text('Vaccine certification'),
+                    ),
+                    body: Padding(
+                      padding: EdgeInsets.all(30),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          if (vacinated)
+                            Text("Vaccinated with " + person['vaccineName'],
+                                textScaleFactor: 1.5),
+                          SizedBox(height: 20),
+                          if (vacinated)
+                            Text(
+                                "Vaccines recieved " +
+                                    person['vaccineInj'].toString() +
+                                    "/" +
+                                    person['vaccineRecInj'].toString(),
+                                textScaleFactor: 1.5),
+                          SizedBox(height: 20),
+                          if (vacinated)
+                            Text(
+                                "Vaccinated on " +
+                                    date.year.toString() +
+                                    "/" +
+                                    date.month.toString() +
+                                    "/" +
+                                    date.day.toString(),
+                                textScaleFactor: 1.5),
+                          if (access >= 3)
+                            Expanded(
+                              child: Align(
+                                alignment: FractionalOffset.bottomCenter,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                VaccineEditPage(
+                                                    uuid: widget.uuid)));
+                                  },
+                                  child: Container(
+                                      width: double.infinity,
+                                      padding: EdgeInsets.all(16.0),
+                                      child: Text("Edit",
+                                          textAlign: TextAlign.center,
+                                          textScaleFactor: 1.5)),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
                   );
                 })));
   }
@@ -120,6 +141,8 @@ class _VaccineEditPageState extends State<VaccineEditPage> {
     query GetPerson(\$uuid: String!, \$jwt: String!) {
       person(uuid: \$uuid, jwt: \$jwt) {
         uuid,
+        firstName,
+        lastName,
         vaccineName,
         vaccineInj,
         vaccineRecInj,
@@ -147,58 +170,87 @@ class _VaccineEditPageState extends State<VaccineEditPage> {
                   {VoidCallback refetch, FetchMore fetchMore}) {
                 var person = result.data['person'];
                 int access = globals.access;
-                bool vacinated = !(person['vaccineName'] == "" ||
-                    person['vaccineName'] == null);
                 return Mutation(
                     options: MutationOptions(
                       document: gql(vaccinate),
                       update: update,
                     ),
                     builder: (RunMutation _vaccinate, QueryResult result) {
-                      return Column(
-                        children: [
-                          Text(widget.uuid),
-                          TextField(
-                            keyboardType: TextInputType.name,
-                            controller: vaccNameController,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Vaccine Name'),
+                      return Scaffold(
+                        appBar: AppBar(
+                          title: Text('Edit ' +
+                              person['firstName'] +
+                              ' ' +
+                              person['lastName']),
+                        ),
+                        body: Padding(
+                          padding: EdgeInsets.all(30),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Text("User UUID : " + widget.uuid),
+                              SizedBox(height: 20),
+                              TextField(
+                                keyboardType: TextInputType.name,
+                                controller: vaccNameController,
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Vaccine Name'),
+                              ),
+                              SizedBox(height: 20),
+                              TextField(
+                                keyboardType: TextInputType.phone,
+                                controller: vaccRecivedController,
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Doses Received'),
+                              ),
+                              SizedBox(height: 20),
+                              TextField(
+                                keyboardType: TextInputType.phone,
+                                controller: vaccRecommendController,
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Recommended Doses'),
+                              ),
+                              SizedBox(height: 20),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          _vaccinate({
+                                            'uuid': widget.uuid,
+                                            'vaccName': vaccNameController.text,
+                                            'vaccDoses': int.parse("0" +
+                                                vaccRecivedController.text),
+                                            'vaccRecommend': int.parse("0" +
+                                                vaccRecommendController.text),
+                                          });
+                                        },
+                                        child: Padding(
+                                            padding: EdgeInsets.all(16),
+                                            child: Text("Update"))),
+                                  ),
+                                  SizedBox(width: 30),
+                                  Expanded(
+                                    flex: 1,
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Padding(
+                                            padding: EdgeInsets.all(16),
+                                            child: Text("Discard"))),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                          TextField(
-                            keyboardType: TextInputType.phone,
-                            controller: vaccRecivedController,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Doses Received'),
-                          ),
-                          TextField(
-                            keyboardType: TextInputType.phone,
-                            controller: vaccRecommendController,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Recommended Doses'),
-                          ),
-                          if (access >= 3)
-                            ElevatedButton(
-                                onPressed: () {
-                                  _vaccinate({
-                                    'uuid': widget.uuid,
-                                    'vaccName': vaccNameController.text,
-                                    'vaccDoses': int.parse(
-                                        "0" + vaccRecivedController.text),
-                                    'vaccRecommend': int.parse(
-                                        "0" + vaccRecommendController.text),
-                                  });
-                                },
-                                child: Text("Update")),
-                          if (access >= 3)
-                            ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text("Discard")),
-                        ],
+                        ),
                       );
                     });
               })),
