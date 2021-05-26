@@ -56,7 +56,6 @@ class _HomePageState extends State<HomePage> {
               (MediaQuery.of(context).platformBrightness == Brightness.dark)
                   ? Colors.white
                   : Colors.black;
-          String vaccine_button = "Not vaccinated";
           globals.access = person['access'] != null ? person['access'] : 0;
           print(person);
           return Align(
