@@ -53,7 +53,10 @@ class _HomePageState extends State<HomePage> {
           String pfp = person['pfp'];
           bool vaccinated =
               !(person['vaccineName'] == "" || person['vaccineName'] == null);
-
+          Color qrColor =
+              (MediaQuery.of(context).platformBrightness == Brightness.dark)
+                  ? Colors.white
+                  : Colors.black;
           String vaccine_button = "Not vaccinated";
           globals.access = person['access'] != null ? person['access'] : 0;
           print(person);
@@ -99,7 +102,8 @@ class _HomePageState extends State<HomePage> {
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(10)),
                                     ),
-                                    child: QRcodeDisplay(person['uuid'], 250),
+                                    child: QRcodeDisplay(
+                                        person['uuid'], 250, qrColor),
                                   ),
                                 ],
                               ),

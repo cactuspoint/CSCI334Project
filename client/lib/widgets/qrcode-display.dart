@@ -9,15 +9,16 @@ import 'package:qr_flutter/qr_flutter.dart';
 /// QRcodeDisplay('Hello World', 200) // Create instance of widget
 /// ```
 class QRcodeDisplay extends StatelessWidget {
-  const QRcodeDisplay(this.data, this.size);
+  const QRcodeDisplay(this.data, this.size, this.color);
   final String data; // String that is represented by the QRcode
   final double size; // width and height of QRcode in pixels
-
+  final Color color;
   @override
   Widget build(BuildContext context) {
     return Container(
       child: QrImage(
         data: data,
+        foregroundColor: color,
         version: QrVersions.auto,
         size: size,
         gapless: false,
