@@ -51,10 +51,6 @@ class _DashboardPageState extends State<DashboardPage> {
             label: 'Reports',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.file_copy),
-            label: 'Documents',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.assistant_photo_rounded),
             label: 'Visits',
           ),
