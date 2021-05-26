@@ -120,6 +120,11 @@ class DatabaseHelper {
       return false;
     }
   }
+
+  static Future<String> getDatabasePathVisits() async {
+    final dbName = 'visits';
+    return join(await getDatabasesPath(), '${dbName}_database.db');
+  }
 }
 
 class Visit {
