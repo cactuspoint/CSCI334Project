@@ -23,7 +23,7 @@ class _VisitsPageState extends State<VisitsPage> {
     ''';
     return Scaffold(
         body: Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(36),
       child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
