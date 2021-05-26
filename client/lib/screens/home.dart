@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:client/screens/vaccine.dart';
-import '../utils/constants/app_globals.dart' as globals;
 import 'package:flip_card/flip_card.dart';
 import 'package:client/widgets/qrcode-display.dart';
 import 'package:client/widgets/qrcode-scan.dart';
