@@ -41,6 +41,39 @@ class Person(SQLAlchemyObjectType):
 
 # Mutations
 
+class InfectedMutation(graphene.Mutation):
+    class Arguments(object):
+        uuid = graphene.String(default_value="")
+        jwt = graphene.String()
+    
+    updated = graphene.Boolean()
+
+    @classmethod
+    def mutate(cls, _, info, uuid, jwt):
+        auth_uuid = decrypt_jwt(jwt)
+        query = (
+            db_session.query(PersonModel)
+            .filter(PersonModel.uuid == auth_uuid)
+            .first()
+        )
+        if uuid == "":
+            query = (
+                db_session.query(PersonModel)
+                .filter(PersonModel.uuid == uuid)
+                .first()
+            )
+        if query:
+            query.infected = "True"
+            db_session.commit()
+            return VaccinateMutation(
+                updated = True
+            )
+        else:
+            raise GraphQLError("error: no user with that jwt/uuid")
+
+
+    
+
 class VaccinateMutation(graphene.Mutation):
     class Arguments(object):
         uuid = graphene.String()
@@ -135,6 +168,7 @@ class Mutation(graphene.ObjectType):
     auth = AuthMutation.Field()
     signUp = SignUpMutation.Field()
     vaccinate = VaccinateMutation.Field()
+    infect = InfectedMutation.Field()
 
 
 # Queries
