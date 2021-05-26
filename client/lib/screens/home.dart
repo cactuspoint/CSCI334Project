@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
               child: new Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: new Container(
-                      constraints: BoxConstraints(maxWidth: 300),
+                      constraints: BoxConstraints(maxWidth: 500),
                       child: new Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            VaccinePage(uuid: "")));
+                                            VaccinePage(uuid: person['uuid'])));
                               }
                             },
                           ),
