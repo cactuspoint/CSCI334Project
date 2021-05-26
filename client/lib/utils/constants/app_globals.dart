@@ -6,3 +6,4 @@ String jwt = "";
 String currentLocation = ""; // iso6709
 bool dbExposedAttached = false;
 List<ListItem> alerts;
+int access = 0;

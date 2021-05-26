@@ -5,6 +5,7 @@ import '../utils/constants/app_globals.dart' as globals;
 import 'package:flip_card/flip_card.dart';
 import 'package:client/widgets/qrcode-display.dart';
 import 'package:client/widgets/qrcode-scan.dart';
+import 'package:client/utils/constants/app_globals.dart' as globals;
 
 class HomePage extends StatefulWidget {
   @override
@@ -54,7 +55,7 @@ class _HomePageState extends State<HomePage> {
               !(person['vaccineName'] == "" || person['vaccineName'] == null);
 
           String vaccine_button = "Not vaccinated";
-          int access = person['access'] != null ? person['access'] : 0;
+          globals.access = person['access'] != null ? person['access'] : 0;
           print(person);
           return Align(
               alignment: Alignment.topLeft,
@@ -123,18 +124,42 @@ class _HomePageState extends State<HomePage> {
                                   textAlign: TextAlign.left,
                                 )),
                             onPressed: () {
-                              if (vaccinated || access >= 3) {
+                              if (vaccinated || globals.access >= 3) {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => VaccinePage()));
+                                        builder: (context) =>
+                                            VaccinePage(uuid: "")));
                               }
                             },
                           ),
+                          SizedBox(height: 30),
+                          if (globals.access >= 1)
+                            ElevatedButton(
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Colors.pink[200])),
+                              child: Container(
+                                  width: double.infinity,
+                                  padding: EdgeInsets.all(16.0),
+                                  child: Text("Verify another user")),
+                              onPressed: () {
+                                _scanPerson(context);
+                              },
+                            ),
                         ],
                       ))));
         },
       ),
     )));
+  }
+
+  void _scanPerson(BuildContext context) async {
+    var text = await Navigator.push(
+        context, MaterialPageRoute(builder: (context) => QRcodeScanWidget()));
+    if (text.length == 36) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => VaccinePage(uuid: text)));
+    }
   }
 }

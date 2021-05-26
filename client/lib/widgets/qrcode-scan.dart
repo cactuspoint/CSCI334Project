@@ -40,7 +40,7 @@ class _QRcodeScanWidgetState extends State<QRcodeScanWidget> {
             child: Text('back'),
             onPressed: () {
               dispose();
-              Navigator.pop(context);
+              Navigator.pop(context, result.code);
             }),
       ],
     );

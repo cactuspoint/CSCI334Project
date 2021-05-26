@@ -3,6 +3,9 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import '../utils/constants/app_globals.dart' as globals;
 
 class VaccinePage extends StatefulWidget {
+  final String uuid;
+  VaccinePage({Key key, @required this.uuid}) : super(key: key);
+
   @override
   _VaccinePageState createState() => _VaccinePageState();
 }
@@ -14,7 +17,6 @@ class _VaccinePageState extends State<VaccinePage> {
     query GetPerson(\$uuid: String!, \$jwt: String!) {
       person(uuid: \$uuid, jwt: \$jwt) {
         uuid,
-        access,
         vaccineName,
         vaccineInj,
         vaccineRecInj,
@@ -28,13 +30,13 @@ class _VaccinePageState extends State<VaccinePage> {
                 options: QueryOptions(
                   document: gql(
                       getPerson), // this is the query string you just created
-                  variables: {'uuid': "", 'jwt': globals.jwt},
+                  variables: {'uuid': widget.uuid, 'jwt': globals.jwt},
                   pollInterval: Duration(seconds: 10),
                 ),
                 builder: (QueryResult result,
                     {VoidCallback refetch, FetchMore fetchMore}) {
                   var person = result.data['person'];
-                  int access = person['access'];
+                  int access = globals.access;
                   bool vacinated = !(person['vaccineName'] == "" ||
                       person['vaccineName'] == null);
                   var date = new DateTime.fromMillisecondsSinceEpoch(
@@ -47,7 +49,7 @@ class _VaccinePageState extends State<VaccinePage> {
                           },
                           child: Text("<< back")),
                       if (vacinated)
-                        Text("Vaccinated with" + person['vaccineName']),
+                        Text("Vaccinated with " + person['vaccineName']),
                       if (vacinated)
                         Text(
                             "vaccines recieved " +
@@ -70,7 +72,8 @@ class _VaccinePageState extends State<VaccinePage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => VaccineEditPage()));
+                                      builder: (context) =>
+                                          VaccineEditPage(uuid: widget.uuid)));
                             },
                             child: Text("Edit")),
                     ],
@@ -80,6 +83,9 @@ class _VaccinePageState extends State<VaccinePage> {
 }
 
 class VaccineEditPage extends StatefulWidget {
+  final String uuid;
+  VaccineEditPage({Key key, @required this.uuid}) : super(key: key);
+
   @override
   _VaccineEditPageState createState() => _VaccineEditPageState();
 }
@@ -114,7 +120,6 @@ class _VaccineEditPageState extends State<VaccineEditPage> {
     query GetPerson(\$uuid: String!, \$jwt: String!) {
       person(uuid: \$uuid, jwt: \$jwt) {
         uuid,
-        access,
         vaccineName,
         vaccineInj,
         vaccineRecInj,
@@ -135,13 +140,13 @@ class _VaccineEditPageState extends State<VaccineEditPage> {
               options: QueryOptions(
                 document:
                     gql(getPerson), // this is the query string you just created
-                variables: {'uuid': "", 'jwt': globals.jwt},
+                variables: {'uuid': widget.uuid, 'jwt': globals.jwt},
                 pollInterval: Duration(seconds: 10),
               ),
               builder: (QueryResult result,
                   {VoidCallback refetch, FetchMore fetchMore}) {
                 var person = result.data['person'];
-                int access = person['access'];
+                int access = globals.access;
                 bool vacinated = !(person['vaccineName'] == "" ||
                     person['vaccineName'] == null);
                 return Mutation(
@@ -152,8 +157,9 @@ class _VaccineEditPageState extends State<VaccineEditPage> {
                     builder: (RunMutation _vaccinate, QueryResult result) {
                       return Column(
                         children: [
+                          Text(widget.uuid),
                           TextField(
-                            keyboardType: TextInputType.phone,
+                            keyboardType: TextInputType.name,
                             controller: vaccNameController,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(),
@@ -177,7 +183,7 @@ class _VaccineEditPageState extends State<VaccineEditPage> {
                             ElevatedButton(
                                 onPressed: () {
                                   _vaccinate({
-                                    'uuid': person['uuid'],
+                                    'uuid': widget.uuid,
                                     'vaccName': vaccNameController.text,
                                     'vaccDoses': int.parse(
                                         "0" + vaccRecivedController.text),
