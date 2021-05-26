@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:client/screens/vaccine.dart';
 import '../utils/constants/app_globals.dart' as globals;
+import 'package:flip_card/flip_card.dart';
+import 'package:client/widgets/qrcode-display.dart';
+import 'package:client/widgets/qrcode-scan.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -65,15 +68,42 @@ class _HomePageState extends State<HomePage> {
                         children: <Widget>[
                           SizedBox(height: 30),
                           new Align(
-                              alignment: Alignment.topCenter,
-                              child: new Container(
-                                  width: 250,
-                                  height: 250,
-                                  decoration: new BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: new DecorationImage(
-                                          fit: BoxFit.fitWidth,
-                                          image: new NetworkImage(pfp))))),
+                            alignment: Alignment.topCenter,
+                            child: new FlipCard(
+                              direction: FlipDirection.HORIZONTAL,
+                              front: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                    ),
+                                    child: new Container(
+                                        width: 250,
+                                        height: 250,
+                                        decoration: new BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: new DecorationImage(
+                                                fit: BoxFit.fitWidth,
+                                                image: new NetworkImage(pfp)))),
+                                  ),
+                                ],
+                              ),
+                              back: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                    ),
+                                    child: QRcodeDisplay(person['uuid'], 250),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                           SizedBox(height: 30),
                           new Text(" " + firstName + " " + lastName,
                               textScaleFactor: 1.5),
