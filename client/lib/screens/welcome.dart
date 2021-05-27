@@ -16,7 +16,7 @@ class _WelcomePageState extends State<WelcomePage> {
     return Scaffold(
         body: SafeArea(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
+        padding: EdgeInsets.all(36),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,

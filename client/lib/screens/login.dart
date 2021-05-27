@@ -53,15 +53,16 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Align(
         alignment: Alignment.bottomCenter,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: SingleChildScrollView(
-                  child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.all(36),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Container(
                   padding: EdgeInsets.fromLTRB(0, 24, 0, 64),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,20 +70,20 @@ class _LoginPageState extends State<LoginPage> {
                       Text('Have an account?', style: TextStyle(fontSize: 32)),
                     ],
                   ),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(0, 96.0, 0, 8.0),
+                ),
+                Container(
+                  padding: EdgeInsets.fromLTRB(0, 96.0, 0, 8.0),
                   alignment: Alignment.center,
                   child: TextField(
                     keyboardType: TextInputType.phone,
                     controller: phoneController,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(), labelText: 'Mobile number'),
+                        border: OutlineInputBorder(),
+                        labelText: 'Mobile number'),
                   ),
-            ),
-
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 8.0),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 8.0),
                   alignment: Alignment.center,
                   child: TextField(
                     controller: passController,
@@ -91,10 +92,9 @@ class _LoginPageState extends State<LoginPage> {
                       labelText: 'Password',
                     ),
                   ),
-            ),
-
-            Container(
-              padding: EdgeInsets.fromLTRB(0, 96.0, 0, 8.0),
+                ),
+                Container(
+                  padding: EdgeInsets.fromLTRB(0, 96.0, 0, 8.0),
                   child: SizedBox(
                     width: double.infinity,
                     child: TextButton(
@@ -106,10 +106,9 @@ class _LoginPageState extends State<LoginPage> {
                       child: Text('CANCEL', style: TextStyle(fontSize: 16)),
                     ),
                   ),
-            ),
-
-            Container(
-              padding: EdgeInsets.only(bottom: 24.0),
+                ),
+                Container(
+                  padding: EdgeInsets.only(bottom: 24.0),
                   child: Mutation(
                       options: MutationOptions(
                         document: gql(authenticate),
@@ -128,15 +127,16 @@ class _LoginPageState extends State<LoginPage> {
                                 'password': passController.text
                               });
                             },
-                            child: Text('LOG IN', style: TextStyle(fontSize: 16)),
+                            child:
+                                Text('LOG IN', style: TextStyle(fontSize: 16)),
                           ),
                         );
                       }),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
-        ),
-      ),
       ),
     );
   }

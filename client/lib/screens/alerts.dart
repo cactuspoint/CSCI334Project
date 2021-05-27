@@ -9,6 +9,8 @@ class AlertsPage extends StatefulWidget {
 class _AlertsPageState extends State<AlertsPage> {
   @override
   Widget build(BuildContext context) {
-    return Center(child: AlertsHelper.alertsWidget());
+    return SafeArea(
+        child: Padding(
+            padding: EdgeInsets.all(36), child: AlertsHelper.alertsWidget()));
   }
 }
