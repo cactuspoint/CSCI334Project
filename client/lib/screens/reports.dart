@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:client/utils/helpers/statistics-helper.dart';
+import 'dart:convert';
 
 class ReportsPage extends StatefulWidget {
   @override
@@ -15,7 +16,22 @@ class _ReportsPageState extends State<ReportsPage> {
                 future: StatisticsHelper.getStatistics(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
-                    return Text(snapshot.data);
+                    // backing data
+                    LineSplitter ls = new LineSplitter();
+
+                    List<String> lines = ls.convert(snapshot.data);
+                    lines.removeAt(0);
+                    return ListView.builder(
+                      itemCount: lines.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          //                           <-- Card widget
+                          child: ListTile(
+                            title: Text(lines[index]),
+                          ),
+                        );
+                      },
+                    );
                   } else {
                     return Column(
                         mainAxisAlignment: MainAxisAlignment.center,
