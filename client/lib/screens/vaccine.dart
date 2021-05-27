@@ -173,9 +173,13 @@ class _VaccineEditPageState extends State<VaccineEditPage> {
                     builder: (RunMutation _vaccinate, QueryResult result) {
                       vaccNameController.text = person['vaccineName'];
                       vaccRecivedController.text =
-                          person['vaccineInj'].toString();
+                          (person['vaccineInj'] != null)
+                              ? person['vaccineInj'].toString()
+                              : "";
                       vaccRecommendController.text =
-                          person['vaccineRecInj'].toString();
+                          (person['vaccineRecInj'] != null)
+                              ? person['vaccineRecInj'].toString()
+                              : "";
                       return Scaffold(
                         appBar: AppBar(
                           title: Text('Edit ' +
