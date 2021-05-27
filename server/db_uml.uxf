@@ -7,21 +7,21 @@
       <x>400</x>
       <y>270</y>
       <w>210</w>
-      <h>190</h>
+      <h>210</h>
     </coordinates>
-    <panel_attributes>User
+    <panel_attributes>Person
 --
-profile_pic : Text
- # dir
-phonenumber : Text
-password : Text
-first_name : Text
-last_name : Text
-date_dirth : Int
- # Unix time
-access_level : Int
- # 1-&gt;4
-vaccine_status : FK
+uuid            TEXT PK
+phone_num       TEXT CK
+password        TEXT
+first_name      TEXT
+last_name       TEXT
+vaccine_name    TEXT
+vaccine_inj     INT
+vaccine_rec_inj INT
+vaccine_date    INT
+infected        INT
+access          INT
 
 </panel_attributes>
     <additional_attributes/>
@@ -30,32 +30,14 @@ vaccine_status : FK
     <id>UMLClass</id>
     <coordinates>
       <x>80</x>
-      <y>270</y>
-      <w>210</w>
-      <h>190</h>
+      <y>260</y>
+      <w>160</w>
+      <h>70</h>
     </coordinates>
-    <panel_attributes>Vaccine_status
+    <panel_attributes>Tracking
 --
-vaccine_name : Text
-no_injections : Int
-no_recommended : Int
-
-
-</panel_attributes>
+datetime TEXT PK
+location TEXT</panel_attributes>
     <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>280</x>
-      <y>420</y>
-      <w>140</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=0..1
-m2=1
-injected with &gt;</panel_attributes>
-    <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
   </element>
 </diagram>
