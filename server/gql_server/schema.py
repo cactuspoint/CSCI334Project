@@ -13,14 +13,12 @@ from . import UPLOAD_DIR
 
 # Custom functions
 
+
 def get_access(uuid):
-    query = (
-            db_session.query(PersonModel)
-            .filter(PersonModel.uuid == uuid)
-            .first()
-        )
+    query = db_session.query(PersonModel).filter(PersonModel.uuid == uuid).first()
     if query:
         return query.access
+
 
 # Setup Models
 
@@ -30,10 +28,14 @@ class Person(SQLAlchemyObjectType):
         model = PersonModel
         exclude_fields = ("password",)
         interfaces = (graphene.relay.Node,)
+
     pfp = graphene.String()
+
     @staticmethod
     def resolve_pfp(root, info, **kwargs):
-        if pathlib.Path(os.path.join(os.path.join(UPLOAD_DIR, "images"), root.uuid + ".png")).is_file():
+        if pathlib.Path(
+            os.path.join(os.path.join(UPLOAD_DIR, "images"), root.uuid + ".png")
+        ).is_file():
             return f"{request.url_root}download/images/{root.uuid}.png"
         else:
             return f"{request.url_root}download/images/default.png"
@@ -41,40 +43,34 @@ class Person(SQLAlchemyObjectType):
 
 # Mutations
 
+
 class InfectedMutation(graphene.Mutation):
     class Arguments(object):
         uuid = graphene.String(default_value="")
         jwt = graphene.String()
-    
+        status = graphene.Boolean(default_value=True)
+
     updated = graphene.Boolean()
 
     @classmethod
-    def mutate(cls, _, info, uuid, jwt):
+    def mutate(cls, _, info, uuid, jwt, status):
         auth_uuid = decrypt_jwt(jwt)
         query = (
-            db_session.query(PersonModel)
-            .filter(PersonModel.uuid == auth_uuid)
-            .first()
+            db_session.query(PersonModel).filter(PersonModel.uuid == auth_uuid).first()
         )
         if query.access < 2:
             raise GraphQLError("error: user does not have access")
         if uuid != "":
             query = (
-                db_session.query(PersonModel)
-                .filter(PersonModel.uuid == uuid)
-                .first()
+                db_session.query(PersonModel).filter(PersonModel.uuid == uuid).first()
             )
         if query:
-            query.infected = "True"
+            query.infected = int(status)
             db_session.commit()
-            return VaccinateMutation(
-                updated = True
-            )
+            return VaccinateMutation(updated=True)
         else:
             raise GraphQLError("error: no user with that jwt/uuid")
 
-
-    
 
 class VaccinateMutation(graphene.Mutation):
     class Arguments(object):
@@ -83,24 +79,20 @@ class VaccinateMutation(graphene.Mutation):
         vaccineName = graphene.String(default_value="")
         vaccineInj = graphene.Int(default_value=0)
         vaccineRecInj = graphene.Int(default_value=0)
-    
+
     updated = graphene.Boolean()
 
     @classmethod
     def mutate(cls, _, info, uuid, jwt, vaccineName, vaccineInj, vaccineRecInj):
         auth_uuid = decrypt_jwt(jwt)
         query = (
-            db_session.query(PersonModel)
-            .filter(PersonModel.uuid == auth_uuid)
-            .first()
+            db_session.query(PersonModel).filter(PersonModel.uuid == auth_uuid).first()
         )
         if query.access < 3:
             raise GraphQLError("error: user does not have access")
         if uuid != "":
             query = (
-                db_session.query(PersonModel)
-                .filter(PersonModel.uuid == uuid)
-                .first()
+                db_session.query(PersonModel).filter(PersonModel.uuid == uuid).first()
             )
         if query:
             if vaccineName != "":
@@ -111,11 +103,10 @@ class VaccinateMutation(graphene.Mutation):
             if vaccineRecInj != 0:
                 query.vaccine_rec_inj = vaccineRecInj
             db_session.commit()
-            return VaccinateMutation(
-                updated = True
-            )
+            return VaccinateMutation(updated=True)
         else:
             raise GraphQLError("error: no user with that uuid/jwt")
+
 
 class SignUpMutation(graphene.Mutation):
     class Arguments(object):
@@ -203,7 +194,7 @@ class Query(graphene.ObjectType):
         query = Person.get_query(info)
         uuid = auth_uuid if uuid == "" else uuid
         if uuid == "":
-            raise GraphQLError("error: uuid OR jwt can be blank, not both")        
+            raise GraphQLError("error: uuid OR jwt can be blank, not both")
         return query.get(uuid)
 
     uuid = graphene.String(phoneNum=graphene.String())
@@ -233,17 +224,18 @@ class Query(graphene.ObjectType):
                 break
             log_paths.append(f"{request.url_root}download/logs/{path.name}")
         return log_paths
-    
-    injectionLog = graphene.Int( backLog=graphene.Int())
+
+    injectionLog = graphene.Int(backLog=graphene.Int())
 
     def resolve_injectionLog(self, info, backLog):
         query = (
             db_session.query(PersonModel)
-            .filter(PersonModel.vaccine_date >= int(time.time()-backLog*24*60*60))
+            .filter(
+                PersonModel.vaccine_date >= int(time.time() - backLog * 24 * 60 * 60)
+            )
             .count()
         )
         return query
-    
 
 
 # Setup
