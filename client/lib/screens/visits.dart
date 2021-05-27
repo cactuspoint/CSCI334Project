@@ -52,7 +52,7 @@ class _VisitsPageState extends State<VisitsPage> {
                   child: Text('Log Visit')),
               onPressed: () {
                 DatabaseHelper.insertVisit(Visit(
-                    DateTime.now().toIso8601String(), globals.currentLocation));
+                    DateTime.now().toIso8601String().substring(0, 13), globals.currentLocation));
               },
             ),
             SizedBox(height: 20),
