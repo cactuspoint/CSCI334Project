@@ -61,6 +61,7 @@ class _ReportsPageState extends State<ReportsPage> {
                               builder: (QueryResult result,
                                   {VoidCallback refetch, FetchMore fetchMore}) {
                                 print(result);
+                                lines = [];
                                 lines.add("App detected cases in past day: " +
                                     result.data['infectionLog'].length
                                         .toString());
