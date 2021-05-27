@@ -19,10 +19,14 @@ class AlertsHelper {
       );
   }
 
-  static setup() {
+  static setup() {}
+
+  static addExposureAlert() {
     // debug: create example alert
     globals.alerts = List<ListItem>.generate(
-        1, (i) => ListItem('Example Alert', 'This is an example alert'));
+        1,
+        (i) => ListItem("Possible Exposure Event Detected!",
+            "It is recommended that you get tested"));
   }
 }
 

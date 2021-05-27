@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:client/utils/helpers/database-helper.dart';
 import 'package:client/widgets/qrcode-scan.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:client/utils/helpers/notification-helper.dart';
+import 'package:client/utils/helpers/alerts-helper.dart';
 
 class VisitsPage extends StatefulWidget {
   @override
@@ -30,7 +32,6 @@ class _VisitsPageState extends State<VisitsPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: 40),
             Query(
                 options: QueryOptions(
                   document: gql(
@@ -56,7 +57,26 @@ class _VisitsPageState extends State<VisitsPage> {
                     },
                   );
                 }),
-            Text('\nTap Infection Status to check for updates'),
+            SizedBox(height: 10),
+            ElevatedButton(
+              child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (exposed == false)
+                        Text("Exposure Status: No Known Exposure"),
+                      if (exposed == true)
+                        Text("Exposure Status: Possible Exposure"),
+                    ],
+                  )),
+              onPressed: () {
+                checkExposed();
+              },
+            ),
+            // SizedBox(height: 10),
+            Text('\nTap a Status to check for updates'),
             SizedBox(height: 30),
             Stepper(
               currentStep: _index,
@@ -148,7 +168,7 @@ class _VisitsPageState extends State<VisitsPage> {
                           if (_index == 1)
                             RaisedButton.icon(
                               icon: Icon(Icons.arrow_back_ios),
-                              label: const Text('CANCEL'),
+                              label: const Text('BACK'),
                               onPressed: onStepCancel,
                             ),
                           if (_index == 1)
@@ -184,6 +204,13 @@ class _VisitsPageState extends State<VisitsPage> {
     }
     ''';
     exposed = await DatabaseHelper.exposed();
+    exposed = true;
+    if (exposed == true) {
+      AlertsHelper.addExposureAlert();
+      NotificationHelper.generateNotification(
+          "Possible Exposure Event Detected!",
+          "It is recommended that you get tested");
+    }
     setState(() {});
   }
 }

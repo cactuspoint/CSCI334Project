@@ -47,7 +47,7 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.assistant_photo_rounded),
-            label: 'Log Visit',
+            label: 'Visits',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.assessment),

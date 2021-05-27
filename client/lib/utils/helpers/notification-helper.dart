@@ -22,7 +22,7 @@ class NotificationHelper {
       }
     });
     if (globals.alerts != null) {
-      unreadAlertNotification();
+      // unreadAlertNotification();
     }
   }
 
