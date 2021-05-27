@@ -15,8 +15,8 @@ class _DashboardPageState extends State<DashboardPage> {
   PageController _pageController = PageController();
   List<Widget> _screens = [
     HomePage(),
-    ReportsPage(),
     VisitsPage(),
+    ReportsPage(),
     AlertsPage(),
     VaccinePage(),
   ];
@@ -47,12 +47,12 @@ class _DashboardPageState extends State<DashboardPage> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.assessment),
-            label: 'Reports',
+            icon: Icon(Icons.assistant_photo_rounded),
+            label: 'Log Visit',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.assistant_photo_rounded),
-            label: 'Visits',
+            icon: Icon(Icons.assessment),
+            label: 'Reports',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.announcement),
