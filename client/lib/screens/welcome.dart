@@ -20,10 +20,15 @@ class _WelcomePageState extends State<WelcomePage> {
         child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
+              Expanded(
+                  child: Align(
+                alignment: Alignment.center,
+                child: AppIcon(),
+              )),
               Column(
                 children: [
-                  AppIcon(),
                   AppName(),
                   SignUpButton(),
                   LogInButton(),
@@ -56,7 +61,7 @@ class AppName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0, 20.0, 0, 280.0),
+      padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
       child: Text('crossreferenc',
           style: GoogleFonts.odibeeSans(
               fontSize: 50,
