@@ -171,6 +171,11 @@ class _VaccineEditPageState extends State<VaccineEditPage> {
                       update: update,
                     ),
                     builder: (RunMutation _vaccinate, QueryResult result) {
+                      vaccNameController.text = person['vaccineName'];
+                      vaccRecivedController.text =
+                          person['vaccineInj'].toString();
+                      vaccRecommendController.text =
+                          person['vaccineRecInj'].toString();
                       return Scaffold(
                         appBar: AppBar(
                           title: Text('Edit ' +
@@ -220,7 +225,11 @@ class _VaccineEditPageState extends State<VaccineEditPage> {
                                           _vaccinate({
                                             'jwt': globals.jwt,
                                             'uuid': widget.uuid,
-                                            'vaccName': vaccNameController.text,
+                                            'vaccName':
+                                                (vaccNameController.text !=
+                                                        person['vaccineName'])
+                                                    ? vaccNameController.text
+                                                    : "",
                                             'vaccDoses': int.parse("0" +
                                                 vaccRecivedController.text),
                                             'vaccRecommend': int.parse("0" +
@@ -240,7 +249,7 @@ class _VaccineEditPageState extends State<VaccineEditPage> {
                                         },
                                         child: Padding(
                                             padding: EdgeInsets.all(16),
-                                            child: Text("Discard"))),
+                                            child: Text("Finish"))),
                                   ),
                                 ],
                               ),
@@ -251,6 +260,125 @@ class _VaccineEditPageState extends State<VaccineEditPage> {
                     });
               })),
     );
+  }
+}
+
+class CovidPage extends StatefulWidget {
+  final String uuid;
+  CovidPage({Key key, @required this.uuid}) : super(key: key);
+
+  @override
+  _CovidPageState createState() => _CovidPageState();
+}
+
+class _CovidPageState extends State<CovidPage> {
+  final vaccNameController = TextEditingController();
+  final vaccRecivedController = TextEditingController();
+  final vaccRecommendController = TextEditingController();
+  OnMutationUpdate get update => (cache, result) {
+        if (result.hasException) {
+          print(result.exception);
+          if (result.exception.graphqlErrors[0] != null) {
+            if (result.exception.graphqlErrors[0].message ==
+                "error: user does not have access") {
+              _simpleAlert(context, "You does not have access");
+            }
+          }
+        } else {
+          Navigator.pop(context);
+        }
+      };
+
+  bool isChecked = false;
+
+  @override
+  Widget build(BuildContext context) {
+    Color getColor(Set<MaterialState> states) {
+      const Set<MaterialState> interactiveStates = <MaterialState>{
+        MaterialState.pressed,
+        MaterialState.hovered,
+        MaterialState.focused,
+      };
+      if (states.any(interactiveStates.contains)) {
+        return Colors.blue;
+      }
+      return Colors.red;
+    }
+
+    const String infect = '''
+    mutation infect(\$jwt: String!, \$uuid: String!, \$status: Boolean!){
+      action: infect(jwt:\$jwt, uuid:\$uuid, status:\$status) {
+        updated
+      }
+    }
+    ''';
+    return Scaffold(
+        body: SafeArea(
+            child: Mutation(
+                options: MutationOptions(
+                  document: gql(infect),
+                  update: update,
+                ),
+                builder: (RunMutation _infect, QueryResult result) {
+                  return Scaffold(
+                    appBar: AppBar(
+                      title: Text('Set user status'),
+                    ),
+                    body: Padding(
+                      padding: EdgeInsets.all(30),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Text("User UUID : " + widget.uuid),
+                          SizedBox(height: 20),
+                          Checkbox(
+                            checkColor: Colors.white,
+                            fillColor:
+                                MaterialStateProperty.resolveWith(getColor),
+                            value: isChecked,
+                            onChanged: (bool value) {
+                              setState(() {
+                                isChecked = (!isChecked);
+                              });
+                            },
+                          ),
+                          SizedBox(height: 20),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      _infect({
+                                        'jwt': globals.jwt,
+                                        'uuid': widget.uuid,
+                                        'status': isChecked,
+                                      });
+                                    },
+                                    child: Padding(
+                                        padding: EdgeInsets.all(16),
+                                        child: Text("Update"))),
+                              ),
+                              SizedBox(width: 30),
+                              Expanded(
+                                flex: 1,
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Padding(
+                                        padding: EdgeInsets.all(16),
+                                        child: Text("Finish"))),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                })));
   }
 }
 
