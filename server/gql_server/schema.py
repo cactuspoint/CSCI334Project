@@ -56,7 +56,9 @@ class InfectedMutation(graphene.Mutation):
             .filter(PersonModel.uuid == auth_uuid)
             .first()
         )
-        if uuid == "":
+        if query.access < 2:
+            raise GraphQLError("error: user does not have access")
+        if uuid != "":
             query = (
                 db_session.query(PersonModel)
                 .filter(PersonModel.uuid == uuid)
@@ -76,7 +78,8 @@ class InfectedMutation(graphene.Mutation):
 
 class VaccinateMutation(graphene.Mutation):
     class Arguments(object):
-        uuid = graphene.String()
+        jwt = graphene.String()
+        uuid = graphene.String(default_value="")
         vaccineName = graphene.String(default_value="")
         vaccineInj = graphene.Int(default_value=0)
         vaccineRecInj = graphene.Int(default_value=0)
@@ -84,12 +87,21 @@ class VaccinateMutation(graphene.Mutation):
     updated = graphene.Boolean()
 
     @classmethod
-    def mutate(cls, _, info, uuid, vaccineName, vaccineInj, vaccineRecInj):
+    def mutate(cls, _, info, uuid, jwt, vaccineName, vaccineInj, vaccineRecInj):
+        auth_uuid = decrypt_jwt(jwt)
         query = (
             db_session.query(PersonModel)
-            .filter(PersonModel.uuid == uuid)
+            .filter(PersonModel.uuid == auth_uuid)
             .first()
         )
+        if query.access < 3:
+            raise GraphQLError("error: user does not have access")
+        if uuid != "":
+            query = (
+                db_session.query(PersonModel)
+                .filter(PersonModel.uuid == uuid)
+                .first()
+            )
         if query:
             if vaccineName != "":
                 query.vaccine_name = vaccineName
@@ -103,7 +115,7 @@ class VaccinateMutation(graphene.Mutation):
                 updated = True
             )
         else:
-            raise GraphQLError("error: no user with that uuid")
+            raise GraphQLError("error: no user with that uuid/jwt")
 
 class SignUpMutation(graphene.Mutation):
     class Arguments(object):
