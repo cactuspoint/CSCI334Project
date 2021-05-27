@@ -233,6 +233,17 @@ class Query(graphene.ObjectType):
                 break
             log_paths.append(f"{request.url_root}download/logs/{path.name}")
         return log_paths
+    
+    injectionLog = graphene.Int( backLog=graphene.Int())
+
+    def resolve_injectionLog(self, info, backLog):
+        query = (
+            db_session.query(PersonModel)
+            .filter(PersonModel.vaccine_date >= int(time.time()-backLog*24*60*60))
+            .count()
+        )
+        return query
+    
 
 
 # Setup
