@@ -21,8 +21,9 @@ class _VisitsPageState extends State<VisitsPage> {
       }
     }
     ''';
-    return Scaffold(
-        body: Padding(
+    return SafeArea(
+        child: Scaffold(
+            body: Padding(
       padding: const EdgeInsets.all(36),
       child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -52,7 +53,8 @@ class _VisitsPageState extends State<VisitsPage> {
                   child: Text('Log Visit')),
               onPressed: () {
                 DatabaseHelper.insertVisit(Visit(
-                    DateTime.now().toIso8601String().substring(0, 13), globals.currentLocation));
+                    DateTime.now().toIso8601String().substring(0, 13),
+                    globals.currentLocation));
               },
             ),
             SizedBox(height: 20),
@@ -83,7 +85,7 @@ class _VisitsPageState extends State<VisitsPage> {
                   );
                 }),
           ]),
-    ));
+    )));
   }
 
   checkExposed() async {
