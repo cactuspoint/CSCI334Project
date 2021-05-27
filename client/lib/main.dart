@@ -20,7 +20,7 @@ class GraphqlApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Use host IP if building for android sub device
-    var graphQLURL = 'http://127.0.0.1:5000/graphql';
+    var graphQLURL = 'http://192.168.1.101:5000/graphql';
     // Create HttpLink from decided address above
     final HttpLink link = HttpLink(
       graphQLURL,
@@ -66,7 +66,7 @@ class _MyAppState extends State<MyApp> {
       home: WelcomePage(),
       themeMode: ThemeMode.system,
       theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
+        primarySwatch: Colors.deepPurple,
         brightness: Brightness.light,
         accentColor: Colors.orangeAccent,
       ),

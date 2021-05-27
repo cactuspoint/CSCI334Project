@@ -46,7 +46,7 @@ class AppIcon extends StatelessWidget {
     return Material(
       elevation: 4.0,
       shape: CircleBorder(),
-      color: Colors.blueGrey,
+      color: Colors.deepPurple,
       clipBehavior: Clip.antiAlias,
       child: Icon(
         Icons.coronavirus,
@@ -64,9 +64,7 @@ class AppName extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
       child: Text('crossreferenc',
           style: GoogleFonts.odibeeSans(
-              fontSize: 50,
-              color: Colors.blueGrey,
-              fontWeight: FontWeight.w600)),
+              fontSize: 50, fontWeight: FontWeight.w600)),
     );
   }
 }
