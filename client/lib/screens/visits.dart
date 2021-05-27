@@ -10,6 +10,7 @@ class VisitsPage extends StatefulWidget {
 }
 
 class _VisitsPageState extends State<VisitsPage> {
+  int _index = 0;
   bool exposed = false;
 
   @override
@@ -29,37 +30,7 @@ class _VisitsPageState extends State<VisitsPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('Set the location of the visit to be logged:'),
-            SizedBox(height: 10),
-            ElevatedButton(
-              child: Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(16.0),
-                  child: Text('scan QR code')),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => QRcodeScanWidget()),
-                );
-              },
-            ),
-            SizedBox(height: 20),
-            Text('\nPress -Log Visit- to log your visit:'),
-            SizedBox(height: 10),
-            ElevatedButton(
-              child: Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(16.0),
-                  child: Text('Log Visit')),
-              onPressed: () {
-                DatabaseHelper.insertVisit(Visit(
-                    DateTime.now().toIso8601String().substring(0, 13),
-                    globals.currentLocation));
-              },
-            ),
-            SizedBox(height: 20),
-            Text('\nPress -Exposed?- to check if you have been exposed:'),
-            SizedBox(height: 10),
+            SizedBox(height: 40),
             Query(
                 options: QueryOptions(
                   document: gql(
@@ -69,10 +40,11 @@ class _VisitsPageState extends State<VisitsPage> {
                 ),
                 builder: (QueryResult result,
                     {VoidCallback refetch, FetchMore fetchMore}) {
-                  var infectionStatus = "Not currently infected";
+                  var infectionStatus =
+                      "Infection Status: Not Currently Infected";
                   if (!(result.data['person']['infected'] == "" ||
                       result.data['person']['infected'] == null)) {
-                    infectionStatus = "Warning : infected";
+                    infectionStatus = "Infection Status: Currently Infected ";
                   }
                   return ElevatedButton(
                     child: Container(
@@ -84,6 +56,115 @@ class _VisitsPageState extends State<VisitsPage> {
                     },
                   );
                 }),
+            Text('\nTap Infection Status to check for updates'),
+            SizedBox(height: 30),
+            Stepper(
+              currentStep: _index,
+              onStepCancel: () {
+                if (_index > 0) {
+                  setState(() {
+                    _index -= 1;
+                  });
+                }
+              },
+              onStepContinue: () {
+                if (_index <= 0) {
+                  setState(() {
+                    _index += 1;
+                  });
+                }
+              },
+              onStepTapped: (int index) {
+                setState(() {
+                  _index = index;
+                });
+              },
+              steps: <Step>[
+                Step(
+                  title: const Text('Set Visit Location'),
+                  content: Container(
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('Scan a QR code to set your location.\n'),
+                        OutlinedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => QRcodeScanWidget()),
+                              );
+                            },
+                            child: Text('Launch QRcode Scanner'))
+                      ],
+                    ),
+                  ),
+                  isActive: _index >= 0,
+                  state: _index >= 1 ? StepState.complete : StepState.disabled,
+                ),
+                Step(
+                  title: Text('Log the Visit'),
+                  content: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                              'Are you sure you want to log the Visit?.\n'),
+                          OutlinedButton(
+                              onPressed: () {
+                                DatabaseHelper.insertVisit(Visit(
+                                    DateTime.now()
+                                        .toIso8601String()
+                                        .substring(0, 13),
+                                    globals.currentLocation));
+                              },
+                              child: Text('Confirm Log Visit'))
+                        ],
+                      )),
+                  isActive: _index >= 1,
+                  state: _index >= 2 ? StepState.complete : StepState.disabled,
+                ),
+              ],
+              controlsBuilder: (BuildContext context,
+                  {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      if (_index == 0)
+                        RaisedButton.icon(
+                          icon: Icon(Icons.arrow_forward_ios),
+                          onPressed: onStepContinue,
+                          label: Text('CONTINUE'),
+                          color: Colors.blue,
+                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (_index == 1)
+                            RaisedButton.icon(
+                              icon: Icon(Icons.arrow_back_ios),
+                              label: const Text('CANCEL'),
+                              onPressed: onStepCancel,
+                            ),
+                          if (_index == 1)
+                            RaisedButton.icon(
+                              icon: Icon(Icons.exposure_plus_1),
+                              label: const Text('START NEW VISIT'),
+                              onPressed: onStepCancel,
+                              color: Colors.green,
+                            )
+                        ],
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
           ]),
     )));
   }
@@ -94,7 +175,7 @@ class _VisitsPageState extends State<VisitsPage> {
       person(uuid: \$uuid, jwt: \$jwt) {
         uuid,
         phoneNum,
-        firstName, 
+        firstName,
         lastName,
         pfp,
         vaccineName,
