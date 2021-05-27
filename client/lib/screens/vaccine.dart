@@ -119,17 +119,12 @@ class _VaccineEditPageState extends State<VaccineEditPage> {
   OnMutationUpdate get update => (cache, result) {
         if (result.hasException) {
           print(result.exception);
-          // if (result.exception.graphqlErrors[0] != null) {
-          //   if (result.exception.graphqlErrors[0].message ==
-          //       "error: incorrect password") {
-          //     passController.text = "";
-          //     _simpleAlert(context, "Incorrect password");
-          //   } else if (result.exception.graphqlErrors[0].message ==
-          //       "error: incorrect phoneNum") {
-          //     phoneController.text = "";
-          //     _simpleAlert(context, "Incorrect phone number");
-          //   }
-          // }
+          if (result.exception.graphqlErrors[0] != null) {
+            if (result.exception.graphqlErrors[0].message ==
+                "error: user does not have access") {
+              _simpleAlert(context, "You does not have access");
+            }
+          }
         } else {
           Navigator.pop(context);
         }
@@ -151,8 +146,8 @@ class _VaccineEditPageState extends State<VaccineEditPage> {
     }
     ''';
     const String vaccinate = '''
-    mutation Vaccinate(\$uuid: String!, \$vaccName: String!, \$vaccDoses: Int!, \$vaccRecommend: Int!){
-      action: vaccinate(uuid:\$uuid, vaccineName: \$vaccName, vaccineInj: \$vaccDoses, vaccineRecInj: \$vaccRecommend) {
+    mutation Vaccinate(\$jwt: String!, \$uuid: String!, \$vaccName: String!, \$vaccDoses: Int!, \$vaccRecommend: Int!){
+      action: vaccinate(jwt: \$jwt, uuid:\$uuid, vaccineName: \$vaccName, vaccineInj: \$vaccDoses, vaccineRecInj: \$vaccRecommend) {
         updated
       }
     }
@@ -223,6 +218,7 @@ class _VaccineEditPageState extends State<VaccineEditPage> {
                                     child: ElevatedButton(
                                         onPressed: () {
                                           _vaccinate({
+                                            'jwt': globals.jwt,
                                             'uuid': widget.uuid,
                                             'vaccName': vaccNameController.text,
                                             'vaccDoses': int.parse("0" +
@@ -257,3 +253,18 @@ class _VaccineEditPageState extends State<VaccineEditPage> {
     );
   }
 }
+
+void _simpleAlert(BuildContext context, String text) => showDialog<AlertDialog>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(text),
+          actions: <Widget>[
+            SimpleDialogOption(
+              child: const Text('DISMISS'),
+              onPressed: () => Navigator.of(context).pop(),
+            )
+          ],
+        );
+      },
+    );
