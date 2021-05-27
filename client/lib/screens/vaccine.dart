@@ -35,12 +35,18 @@ class _VaccinePageState extends State<VaccinePage> {
                 ),
                 builder: (QueryResult result,
                     {VoidCallback refetch, FetchMore fetchMore}) {
+                  print(result.data['person']);
                   var person = result.data['person'];
+                  print("test2");
                   int access = globals.access;
                   bool vacinated = !(person['vaccineName'] == "" ||
                       person['vaccineName'] == null);
-                  var date = new DateTime.fromMillisecondsSinceEpoch(
-                      person['vaccineDate'] * 1000);
+                  var date;
+                  if (vacinated) {
+                    date = new DateTime.fromMillisecondsSinceEpoch(
+                        person['vaccineDate'] * 1000);
+                  }
+
                   return Scaffold(
                     appBar: AppBar(
                       title: const Text('Vaccine certification'),
@@ -72,6 +78,9 @@ class _VaccinePageState extends State<VaccinePage> {
                                     date.month.toString() +
                                     "/" +
                                     date.day.toString(),
+                                textScaleFactor: 1.5),
+                          if (!vacinated)
+                            Text("You are not logged as vaccinated yet :(",
                                 textScaleFactor: 1.5),
                           if (access >= 3)
                             Expanded(
