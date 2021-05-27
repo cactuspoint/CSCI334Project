@@ -18,7 +18,6 @@ class _DashboardPageState extends State<DashboardPage> {
     VisitsPage(),
     ReportsPage(),
     AlertsPage(),
-    VaccinePage(),
   ];
 
   void _onPageChanged(int index) {
