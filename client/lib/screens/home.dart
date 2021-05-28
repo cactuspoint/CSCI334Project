@@ -146,7 +146,35 @@ class _HomePageState extends State<HomePage> {
                                   padding: EdgeInsets.all(16.0),
                                   child: Text("Verify another user")),
                               onPressed: () {
-                                _scanPerson(context);
+                                _scanPersonVacc(context);
+                              },
+                            ),
+                          SizedBox(height: 30),
+                          if (globals.access >= 2)
+                            ElevatedButton(
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Colors.pink[200])),
+                              child: Container(
+                                  width: double.infinity,
+                                  padding: EdgeInsets.all(16.0),
+                                  child: Text("Confirm user positve")),
+                              onPressed: () {
+                                _scanPersonCovid(context);
+                              },
+                            ),
+                          SizedBox(height: 30),
+                          if (globals.access >= 3)
+                            ElevatedButton(
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Colors.pink[200])),
+                              child: Container(
+                                  width: double.infinity,
+                                  padding: EdgeInsets.all(16.0),
+                                  child: Text("Vaccinate user")),
+                              onPressed: () {
+                                _scanPersonVacSet(context);
                               },
                             ),
                         ],
@@ -156,12 +184,30 @@ class _HomePageState extends State<HomePage> {
     )));
   }
 
-  void _scanPerson(BuildContext context) async {
+  void _scanPersonVacc(BuildContext context) async {
     var text = await Navigator.push(
         context, MaterialPageRoute(builder: (context) => QRcodeScanWidget()));
     if (text.length == 36) {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => VaccinePage(uuid: text)));
+    }
+  }
+
+  void _scanPersonCovid(BuildContext context) async {
+    var text = await Navigator.push(
+        context, MaterialPageRoute(builder: (context) => QRcodeScanWidget()));
+    if (text.length == 36) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => CovidPage(uuid: text)));
+    }
+  }
+
+  void _scanPersonVacSet(BuildContext context) async {
+    var text = await Navigator.push(
+        context, MaterialPageRoute(builder: (context) => QRcodeScanWidget()));
+    if (text.length == 36) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => VaccineEditPage(uuid: text)));
     }
   }
 }
