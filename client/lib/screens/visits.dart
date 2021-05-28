@@ -204,7 +204,6 @@ class _VisitsPageState extends State<VisitsPage> {
     }
     ''';
     exposed = await DatabaseHelper.exposed();
-    exposed = true;
     if (exposed == true) {
       AlertsHelper.addExposureAlert();
       NotificationHelper.generateNotification(
