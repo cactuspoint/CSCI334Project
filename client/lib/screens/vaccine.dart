@@ -173,7 +173,6 @@ class _VaccineEditPageState extends State<VaccineEditPage> {
               builder: (QueryResult result,
                   {VoidCallback refetch, FetchMore fetchMore}) {
                 var person = result.data['person'];
-                int access = globals.access;
                 return Mutation(
                     options: MutationOptions(
                       document: gql(vaccinate),

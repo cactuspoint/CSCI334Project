@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'package:client/screens/login.dart';
 import 'package:client/screens/signup.dart';
-import 'package:client/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

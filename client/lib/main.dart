@@ -1,13 +1,10 @@
 import 'dart:ui';
 import 'package:client/utils/helpers/alerts-helper.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/foundation.dart' show TargetPlatform;
 
 import 'package:client/screens/welcome.dart';
-import 'package:client/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:client/utils/constants/app_globals.dart' as globals;
 import 'package:client/utils/helpers/notification-helper.dart';
 
 void main() {
