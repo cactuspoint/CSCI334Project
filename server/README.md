@@ -10,7 +10,7 @@ poetry install
 ## Running the server
 The server is fully self contained and runs using an included sqlite .db file so to run the server just run
 ```
-poetry run ./main.py
+poetry run python ./main.py
 ```
 
 ## Using the graphql server
@@ -21,7 +21,7 @@ auth(phone_num, password) -> accessToken (orr throw's error for invalid phoneNum
 e.g.
 ```
 mutation {
-  auth(phoneNum:"0401", password:"rawpass") {
+  auth(phoneNum:"0401", password:"password") {
     accessToken
   }
 }
@@ -44,8 +44,8 @@ person(uuid, jwt) -> Person
 e.g.
 ```
 query{
-  person(uuid:1, jwt:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoxfQ.4YFfGcdP5RSECkNMgSQV3DVC9rrtC2-5Df3gyJ2dywA"){
-    fName
+  person(uuid:"...", jwt:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoxfQ.4YFfGcdP5RSECkNMgSQV3DVC9rrtC2-5Df3gyJ2dywA"){
+    firstName
   }
 }
 ```
@@ -54,13 +54,13 @@ will return
 {
   "data": {
     "person": {
-      "fName": "alex"
+      "firstName": "alex"
     }
   }
 }
 ```
-where fName is the requested data of the person with the uuid of 1
+where firstName is the requested data of the person with the uuid requested.
 
-The jwt string can be decrypted to find the uuid of the user who sent this query and depending on either the access level or if the jwt_uuid==query_uuid the amount of data returned from the query can be modified
+The jwt string can also be decrypted to find the uuid of the user who sent this query and depending on either the access level or if the jwt_uuid==query_uuid the amount of data returned from the query can be modified
 
 
